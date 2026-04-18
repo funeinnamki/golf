@@ -4,7 +4,7 @@
   "description": "골프 라운딩 기록 관리",
   "start_url": "./index.html",
   "display": "standalone",
-  "background_color": "#192744",
+  "background_color": "#1a3a28",
   "theme_color": "#1a3a28",
   "orientation": "portrait",
   "icons": [
