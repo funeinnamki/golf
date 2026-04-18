@@ -3,6 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+<meta name="theme-color" content="#1a3a28">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Golf Is Life">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-192.png">
 <title>Golf Is Life</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700&family=Playfair+Display:wght@500;700&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
@@ -35,12 +41,12 @@
 </style>
 </head>
 <body>
-<div class="auth-wrap" id="auth"><div class="auth-box"><div class="auth-logo"><div class="ic" style="width:56px;height:56px;font-size:24px;background:linear-gradient(135deg,#1a3a28,#27654a);color:#c9a84c;letter-spacing:-1px;font-family:'Playfair Display',serif;font-weight:700">G</div><h1 style="font-size:20px;letter-spacing:0.5px">GOLF IS LIFE</h1><p>라운딩 기록 · 스코어 · 통계</p></div>
+<div class="auth-wrap" id="auth"><div class="auth-box"><div class="auth-logo"><div class="ic" style="width:56px;height:56px;font-size:24px;background:linear-gradient(135deg,#1a3a28,#27654a);color:#c9a84c;letter-spacing:-1px;font-family:'Playfair Display',serif;font-weight:700">G</div><h1 style="font-size:20px;letter-spacing:2px">GOLF IS LIFE</h1><p>라운딩 기록 · 스코어 · 통계</p></div>
 <div id="loginF"><div id="loginErr" class="auth-err hide"></div><div class="fg"><label>아이디</label><input id="lId" type="text" placeholder="아이디"></div><div class="fg"><label>비밀번호</label><input id="lPw" type="password" placeholder="비밀번호"></div><button class="auth-btn" onclick="doLogin()">로그인</button><div class="auth-sw">계정이 없으신가요? <a onclick="showReg()">회원가입</a></div></div>
 <div id="regF" class="hide"><div id="regErr" class="auth-err hide"></div><div class="fg"><label>아이디 (3자 이상)</label><input id="rId" type="text"></div><div class="fg"><label>비밀번호 (4자 이상)</label><input id="rPw" type="password"></div><div class="fg"><label>이름</label><input id="rNm" type="text" placeholder="표시 이름"></div><div class="fg"><label>멤버 연결</label><input id="rMem" type="text" placeholder="골프 멤버 이름 (예: 남기섭)"></div><button class="auth-btn" onclick="doReg()">회원가입</button><div class="auth-sw">이미 계정이 있으신가요? <a onclick="showLogin()">로그인</a></div></div></div></div>
 
 <div class="app" id="app">
-<div class="hdr"><div class="hdr-top"><div class="logo" onclick="loadData()" style="cursor:pointer"><div class="ic" style="background:linear-gradient(135deg,var(--gold),#e8d48b);font-family:'Playfair Display',serif;font-weight:700;color:var(--g800);font-size:14px">G</div><h1 style="font-size:15px;letter-spacing:0.5px">GOLF IS LIFE</h1></div><div class="hdr-r"><div class="ubadge"><div class="dot"></div><span id="uname"></span></div><button class="ibtn" onclick="doLogout()">⏻</button></div></div>
+<div class="hdr"><div class="hdr-top"><div class="logo" onclick="loadData()" style="cursor:pointer"><div class="ic" style="background:linear-gradient(135deg,var(--gold),#e8d48b);font-family:'Playfair Display',serif;font-weight:700;color:var(--g800);font-size:14px">G</div><h1 style="font-size:15px;letter-spacing:1.5px">GOLF IS LIFE</h1></div><div class="hdr-r"><div class="ubadge"><div class="dot"></div><span id="uname"></span></div><button class="ibtn" onclick="doLogout()">⏻</button></div></div>
 <div class="tabs"><button class="tab on" data-t="list" onclick="goTab('list')">📋 기록</button><button class="tab" data-t="add" onclick="goTab('add')">➕ 입력</button><button class="tab" data-t="stats" onclick="goTab('stats')">📊 통계</button></div></div>
 <div class="toast" id="toast"></div>
 <div class="loading-overlay" id="loadingOv"><div class="golf-ball"></div><p id="loadingMsg">저장중...</p></div>
@@ -235,6 +241,7 @@ function mkC(id,type,data,opts={}){if(CH[id])CH[id].destroy();CH[id]=new Chart($
 // Init
 loadSt();if(USER)enter();
 document.addEventListener('click',e=>{if(!e.target.closest('.ac-wrap'))document.querySelectorAll('.ac-list').forEach(l=>l.classList.remove('on'))});
+if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
 </script>
 </body>
 </html>
