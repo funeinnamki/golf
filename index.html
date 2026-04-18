@@ -24,7 +24,7 @@
 .card{background:var(--card);border-radius:var(--r);box-shadow:var(--sh);padding:16px;margin-bottom:10px;border:1px solid var(--border)}.card-t{font-size:13px;font-weight:600;color:var(--g700);margin-bottom:10px;display:flex;align-items:center;gap:6px}
 .rc{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:13px;margin-bottom:8px;cursor:pointer;transition:all .15s;box-shadow:var(--sh)}.rc:active{transform:scale(.98)}.rc-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px}.rc-date{font-size:12px;font-weight:600;color:var(--g800)}.rc-cost{font-size:11px;font-weight:600;color:var(--gold);background:#fdf8e8;padding:2px 8px;border-radius:12px}.rc-course{font-size:13px;font-weight:500;margin-bottom:2px}.rc-loc{font-size:10px;color:var(--sub)}.rc-scores{display:flex;flex-wrap:wrap;gap:4px;margin-top:7px}
 .sc{display:flex;align-items:center;gap:3px;border-radius:12px;padding:3px 8px;font-size:10px;position:relative}.sc .n{color:var(--sub)}.sc .v{font-weight:600}.sc-me{outline:2px solid var(--gold);outline-offset:-1px}.sc-good{background:#dff5e8}.sc-good .v{color:var(--g800)}.sc-ok{background:var(--g100)}.sc-ok .v{color:var(--text)}.sc-bad{background:#fde8e8}.sc-bad .v{color:#791f1f}.sc-crown::before{content:'👑';position:absolute;top:-8px;left:-2px;font-size:10px}
-.fbar{display:flex;gap:6px;margin-bottom:10px;align-items:center}.fsel{padding:5px 10px;border:1px solid var(--border);border-radius:var(--rs);font-size:11px;font-family:'Noto Sans KR';background:#fff;color:var(--text)}.fchip{flex-shrink:0;padding:4px 11px;border-radius:14px;border:1px solid var(--border);background:#fff;font-size:10px;cursor:pointer;font-family:'Noto Sans KR';white-space:nowrap}.fchip.on{background:var(--g600);color:#fff;border-color:var(--g600)}.fscroll{display:flex;gap:4px;overflow-x:auto;flex:1}
+.fbar{display:flex;gap:6px;margin-bottom:10px;align-items:center}.fsel{padding:5px 10px;border:1px solid var(--border);border-radius:var(--rs);font-size:11px;font-family:'Noto Sans KR';background:#fff;color:var(--text)}
 .btn{padding:9px 16px;border:none;border-radius:var(--rs);font-size:12px;font-weight:500;cursor:pointer;font-family:'Noto Sans KR';transition:all .15s}.btn-p{background:var(--g600);color:#fff}.btn-p:active{background:var(--g500)}.btn-s{background:var(--g100);color:var(--g700)}.btn-d{background:var(--danger-l);color:var(--danger)}.btn-sm{padding:5px 10px;font-size:10px}.btn-blk{width:100%}
 .frow{display:grid;grid-template-columns:1fr 1fr;gap:8px}.frow3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}input[type=date],input[type=time],input[type=text],input[type=number],input[type=password]{width:100%;padding:9px 10px;border:1px solid var(--border);border-radius:var(--rs);font-size:13px;font-family:'Noto Sans KR';outline:none;background:#fff}input:focus{border-color:var(--g500)}
 .scard{overflow-x:auto;margin:6px 0}.scard table{border-collapse:collapse;min-width:100%;font-size:11px;text-align:center}.scard th,.scard td{padding:4px 2px;min-width:28px;border:1px solid var(--border)}.scard th{background:var(--g100);color:var(--g700);font-weight:500;font-size:10px}.scard .score-cell{padding:0}.scard .score-cell input{width:100%;border:none;text-align:center;font-size:12px;font-weight:600;padding:5px 0;font-family:'Noto Sans KR';outline:none;background:transparent}.scard .subtotal{background:#f5f5f0;font-weight:600;color:var(--g800)}.scard .label-col{background:var(--g100);font-weight:500;color:var(--g700);white-space:nowrap;padding:4px 6px}
@@ -41,18 +41,18 @@
 </style>
 </head>
 <body>
-<div class="auth-wrap" id="auth"><div class="auth-box"><div class="auth-logo"><img src="icon-192.png" style="width:72px;height:72px;border-radius:16px;margin-bottom:8px" onerror="this.style.display='none'"><h1 style="font-size:18px;letter-spacing:2px;font-variant-numeric:lining-nums">GOLF IS 40's LIFE</h1><p>라운딩 기록 · 스코어 · 통계</p></div>
-<div id="loginF"><div id="loginErr" class="auth-err hide"></div><div class="fg"><label>아이디</label><input id="lId" type="text" placeholder="아이디"></div><div class="fg"><label>비밀번호</label><input id="lPw" type="password" placeholder="비밀번호"></div><button class="auth-btn" onclick="doLogin()">로그인</button><div class="auth-sw">계정이 없으신가요? <a onclick="showReg()">회원가입</a></div></div>
-<div id="regF" class="hide"><div id="regErr" class="auth-err hide"></div><div class="fg"><label>아이디 (3자 이상)</label><input id="rId" type="text"></div><div class="fg"><label>비밀번호 (4자 이상)</label><input id="rPw" type="password"></div><div class="fg"><label>이름</label><input id="rNm" type="text" placeholder="표시 이름"></div><div class="fg"><label>멤버 연결</label><input id="rMem" type="text" placeholder="골프 멤버 이름 (예: 남기섭)"></div><button class="auth-btn" onclick="doReg()">회원가입</button><div class="auth-sw">이미 계정이 있으신가요? <a onclick="showLogin()">로그인</a></div></div></div></div>
+<div class="auth-wrap" id="auth"><div class="auth-box"><div class="auth-logo"><img src="icon-192.png" style="width:72px;height:72px;border-radius:16px;margin-bottom:8px" onerror="this.style.display='none'"><h1 style="font-size:18px;letter-spacing:0.5px;font-variant-numeric:lining-nums">GOLF IS 40's LIFE</h1><p>For Single Life</p></div>
+<div id="loginF"><div id="loginErr" class="auth-err hide"></div><div class="fg"><label>아이디</label><input id="lId" type="text" placeholder="아이디"></div><div class="fg"><label>비번</label><input id="lPw" type="password" placeholder="비밀번호"></div><button class="auth-btn" onclick="doLogin()">홀인원</button><div class="auth-sw">계정없누? <a onclick="showReg()">회원가입</a></div></div>
+<div id="regF" class="hide"><div id="regErr" class="auth-err hide"></div><div class="fg"><label>아이디 (3자 이상)</label><input id="rId" type="text"></div><div class="fg"><label>비밀번호 (4자 이상)</label><input id="rPw" type="password"></div><div class="fg"><label>이름</label><input id="rNm" type="text" placeholder="표시 이름"></div><div class="fg"><label>멤버 연결</label><input id="rMem" type="text" placeholder="본명적어라 띄어쓰기없이"></div><button class="auth-btn" onclick="doReg()">회원가입</button><div class="auth-sw">이미 계정이 있누? <a onclick="showLogin()">로그인</a></div></div></div></div>
 
 <div class="app" id="app">
-<div class="hdr"><div class="hdr-top"><div class="logo" onclick="loadData()" style="cursor:pointer"><img src="icon-192.png" style="width:30px;height:30px;border-radius:6px"><h1 style="font-size:14px;letter-spacing:1px;font-variant-numeric:lining-nums">GOLF IS 40's LIFE</h1></div><div class="hdr-r"><div class="ubadge"><div class="dot"></div><span id="uname"></span></div><button class="ibtn" onclick="doLogout()">⏻</button></div></div>
+<div class="hdr"><div class="hdr-top"><div class="logo" onclick="loadData()" style="cursor:pointer"><img src="icon-192.png" style="width:30px;height:30px;border-radius:6px"><h1 style="font-size:14px;letter-spacing:1px;font-variant-numeric:lining-nums">1 Hall Awalys Par</h1></div><div class="hdr-r"><div class="ubadge"><div class="dot"></div><span id="uname"></span></div><button class="ibtn" onclick="doLogout()">🔓</button></div></div>
 <div class="tabs"><button class="tab on" data-t="list" onclick="goTab('list')">📋 기록</button><button class="tab" data-t="add" onclick="goTab('add')">➕ 입력</button><button class="tab" data-t="stats" onclick="goTab('stats')">📊 통계</button></div></div>
 <div class="toast" id="toast"></div>
 <div class="loading-overlay" id="loadingOv"><div class="golf-ball"></div><p id="loadingMsg">저장중...</p></div>
 <div class="ct">
-<!-- 기록 --><div class="page on" id="pg-list"><div class="fbar"><select class="fsel" id="yrFilter"></select></div><div id="rlist"></div></div>
-<!-- 입력 --><div class="page" id="pg-add"><div class="card"><div class="card-t" id="addTitle">📝 새 라운딩</div><input type="hidden" id="editRid">
+<div class="page on" id="pg-list"><div class="fbar"><select class="fsel" id="yrFilter"></select></div><div id="rlist"></div></div>
+<div class="page" id="pg-add"><div class="card"><div class="card-t" id="addTitle">📝 새 라운딩</div><input type="hidden" id="editRid">
 <div class="frow" style="margin-bottom:10px"><div class="fg"><label>날짜</label><input type="date" id="aDate"></div><div class="fg"><label>시간</label><input type="time" id="aTime"></div></div>
 <div class="frow" style="margin-bottom:10px"><div class="fg"><label>지역</label><input type="text" id="aArea" placeholder="포천"></div><div class="fg"><label>골프장</label><div class="ac-wrap"><input type="text" id="aCourse" placeholder="골프장 검색" oninput="onCourseInput()"><div class="ac-list" id="acCourse"></div></div></div></div>
 <div class="frow3" style="margin-bottom:10px"><div class="fg"><label>필드비 (1인)</label><input type="number" id="aField" placeholder="99000" oninput="calcPP()"></div><div class="fg"><label>캐디비 (총액)</label><input type="number" id="aCaddy" placeholder="150000" oninput="calcPP()"></div><div class="fg"><label>카트비 (총액)</label><input type="number" id="aCart" placeholder="100000" oninput="calcPP()"></div></div>
@@ -68,11 +68,11 @@
 <div class="chart-box"><div class="ct-t">🎯 스코어 분포</div><canvas id="chDist"></canvas></div>
 <div class="card" id="growthCard"></div>
 <div class="card" id="halfCard"></div>
-<div class="chart-box"><div class="ct-t">🏌️ 골프장별 내 평균</div><canvas id="chCourse"></canvas></div>
+<div class="chart-box"><div class="ct-t">🏌️ 골프장별 내 평균</div><div id="courseChartWrap"><canvas id="chCourse"></canvas></div></div>
 <div id="vsCards"></div>
 </div>
-<!-- 상세 --><div class="page" id="pg-detail"><div class="det-hdr"><button class="det-back" onclick="goTab('list')">← 목록</button><div style="display:flex;gap:4px"><button class="btn btn-s btn-sm" onclick="editRound()">수정</button><button class="btn btn-d btn-sm" onclick="delRound()">삭제</button></div></div><div id="detContent"></div></div>
-<!-- 홀별 수정 --><div class="page" id="pg-editsc"><div class="det-hdr"><button class="det-back" onclick="showDetail(editScoreData?.score?.round_id)">← 돌아가기</button></div><div class="card"><div class="card-t">🏌️ 내 홀별 스코어 입력</div><div id="editScCard"></div><button class="btn btn-p btn-blk" style="margin-top:12px" onclick="saveMyScore()">저장</button></div></div>
+<div class="page" id="pg-detail"><div class="det-hdr"><button class="det-back" onclick="goTab('list')">← 목록</button><div style="display:flex;gap:4px"><button class="btn btn-s btn-sm" onclick="editRound()">수정</button><button class="btn btn-d btn-sm" onclick="delRound()">삭제</button></div></div><div id="detContent"></div></div>
+<div class="page" id="pg-editsc"><div class="det-hdr"><button class="det-back" onclick="showDetail(editScoreData?.score?.round_id)">← 돌아가기</button></div><div class="card"><div class="card-t">🏌️ 내 홀별 스코어 입력</div><div id="editScCard"></div><button class="btn btn-p btn-blk" style="margin-top:12px" onclick="saveMyScore()">저장</button></div></div>
 </div></div>
 <script>
 const API='https://script.google.com/macros/s/AKfycbzLf7tVQXbVarhGxCtjDO1KPiErk1-Z5cE_nCaozKUrF0A3daD9iM_ReDTKRD4-FHKD/exec';
@@ -80,15 +80,12 @@ let USER=null,D={rounds:[],scores:[],players:[],courses:[]},CH={};
 let curYear='전체',curDetail=null,editScoreData=null,formPlayers=[];
 const COL=['#2d8a5e','#c9a84c','#4a90d9','#d44040','#8b5cf6','#f59e0b','#ec4899','#14b8a6'];
 
-// JSONP
 let _jid=0;
 function api(d){return new Promise((ok,no)=>{const id='_j'+(_jid++);const tm=setTimeout(()=>{delete window[id];s.remove();no(new Error('timeout'))},30000);window[id]=r=>{clearTimeout(tm);delete window[id];s.remove();ok(r)};const q=new URLSearchParams();q.set('callback',id);q.set('t',Date.now());if(d)q.set('data',encodeURIComponent(JSON.stringify(d)));const s=document.createElement('script');s.src=API+'?'+q;s.onerror=()=>{clearTimeout(tm);delete window[id];s.remove();no(new Error('net'))};document.body.appendChild(s)})}
 
-// Storage
 function loadSt(){try{const u=localStorage.getItem('gu3');if(u)USER=JSON.parse(u)}catch(e){}}
 function saveSt(){if(USER)localStorage.setItem('gu3',JSON.stringify(USER));else localStorage.removeItem('gu3')}
 
-// Auth
 function showLogin(){$('loginF').classList.remove('hide');$('regF').classList.add('hide');$('loginErr').classList.add('hide')}
 function showReg(){$('loginF').classList.add('hide');$('regF').classList.remove('hide');$('regErr').classList.add('hide')}
 async function doLogin(){const id=$('lId').value.trim(),pw=$('lPw').value;if(!id||!pw)return shErr('loginErr','아이디와 비밀번호를 입력하세요');showL('로그인 중...');try{const r=await api({action:'login',userId:id,password:pw});hideL();if(r.status==='ok'){USER=r.user;saveSt();enter()}else shErr('loginErr',r.message)}catch(e){hideL();shErr('loginErr','서버 연결 실패')}}
@@ -97,10 +94,8 @@ function doLogout(){if(!confirm('로그아웃?'))return;USER=null;saveSt();$('ap
 function shErr(id,m){$(id).textContent=m;$(id).classList.remove('hide')}
 function enter(){$('auth').style.display='none';$('app').classList.add('on');$('uname').textContent=USER.userName;initForm();loadData()}
 
-// Data
-async function loadData(){$('rlist').innerHTML='<div class="ld"><div class="golf-ball"></div>불러오는 중...</div>';try{const j=await api();if(j.status==='ok'){D=j;D.rounds=j.rounds||[];D.scores=j.scores||[];D.players=j.players||[];D.courses=j.courses||[];console.log('📦',D.rounds.length,'rounds',D.scores.length,'scores');renderList()}}catch(e){$('rlist').innerHTML='<div class="empty"><div class="eic">⚠️</div>데이터 로드 실패</div>'}}
+async function loadData(){$('rlist').innerHTML='<div class="ld"><div class="golf-ball"></div>불러오는 중...</div>';try{const j=await api();if(j.status==='ok'){D=j;D.rounds=j.rounds||[];D.scores=j.scores||[];D.players=j.players||[];D.courses=j.courses||[];renderList()}}catch(e){$('rlist').innerHTML='<div class="empty"><div class="eic">⚠️</div>데이터 로드 실패</div>'}}
 
-// Helpers
 function $(id){return document.getElementById(id)}
 function mn(){return USER?.memberName||''}
 function gs(rid){return D.scores.filter(s=>s.round_id===rid)}
@@ -115,7 +110,6 @@ function hideL(){$('loadingOv').classList.remove('on')}
 function toast(m){const t=$('toast');t.textContent=m;t.classList.add('on');setTimeout(()=>t.classList.remove('on'),2500)}
 function goTab(t){document.querySelectorAll('.page').forEach(p=>p.classList.remove('on'));document.querySelectorAll('.tab').forEach(b=>b.classList.remove('on'));const tb=document.querySelector(`.tab[data-t="${t}"]`);if(tb)tb.classList.add('on');$('pg-'+t).classList.add('on');if(t==='stats')renderStats();if(t==='list')renderList();if(t==='add'&&!$('editRid').value)initForm()}
 
-// ===== LIST =====
 function renderList(){
   const rounds=myR();
   const years=['전체',...new Set(rounds.map(r=>String(r.날짜||'').substring(0,4)).filter(Boolean))].sort((a,b)=>a==='전체'?-1:b==='전체'?1:b.localeCompare(a));
@@ -131,7 +125,6 @@ function renderList(){
 }
 $('yrFilter').onchange=function(){curYear=this.value;renderList()};
 
-// ===== DETAIL =====
 function showDetail(rid){
   curDetail=D.rounds.find(r=>r.round_id===rid);if(!curDetail)return;
   const sc=gs(rid),m=mn(),n=sc.length||1,ppc=pp(curDetail);
@@ -157,7 +150,6 @@ function buildSV(s){let h='<div class="scard"><table><tr><th class="label-col">H
   let i2=0;for(let i=10;i<=18;i++){const v=s['h'+i],n=Number(v);if(v!==''&&v!==undefined&&v!==null){i2+=n;h+=`<td class="${hC(n)}">${n>0?'+'+n:n}</td>`}else h+='<td>-</td>'}
   h+=`<td class="subtotal">${i2>0?'+'+i2:i2}</td></tr>`;const t=o+i2;h+=`<tr><td class="label-col" colspan="10" style="text-align:right;font-weight:600">합계: ${t>0?'+'+t:t}</td></tr></table></div>`;return h}
 
-// ===== EDIT ROUND =====
 function editRound(){
   if(!curDetail)return;const r=curDetail,sc=gs(r.round_id);
   $('editRid').value=r.round_id;$('addTitle').textContent='✏️ 라운딩 수정';$('saveBtn').textContent='수정 저장';
@@ -170,7 +162,6 @@ function editRound(){
 
 async function delRound(){if(!curDetail||!confirm('삭제하시겠습니까?'))return;showL('삭제중...');try{const r=await api({action:'deleteRound',roundId:curDetail.round_id});hideL();if(r.status==='ok'){toast('삭제 완료');await loadData();goTab('list')}else toast(r.message)}catch(e){hideL();toast('삭제 실패')}}
 
-// ===== SCORE EDIT =====
 function editMyScore(rid){
   const round=D.rounds.find(r=>r.round_id===rid),sc=D.scores.find(s=>s.round_id===rid&&s.이름===mn());if(!round||!sc)return;editScoreData={round,score:sc};
   let h=`<div class="fg" style="margin-bottom:10px"><label>토탈</label><input type="number" id="esT" value="${sc.total||''}" placeholder="자동(par72)" style="text-align:center;font-size:16px;font-weight:600;max-width:120px"></div><div class="scard"><table>`;
@@ -184,7 +175,6 @@ function editMyScore(rid){
 function calcET(){let o=0,i2=0,f=0;for(let i=1;i<=9;i++){const v=$('es'+i)?.value;if(v!==''){o+=Number(v);f++}}for(let i=10;i<=18;i++){const v=$('es'+i)?.value;if(v!==''){i2+=Number(v);f++}}$('esOT').textContent=o>0?'+'+o:o;$('esIT').textContent=i2>0?'+'+i2:i2;const t=o+i2;$('esS').textContent=t>0?'+'+t:t;if(f>0)$('esT').value=72+t}
 async function saveMyScore(){if(!editScoreData)return;const h=[];let to=0;for(let i=1;i<=18;i++){const v=$('es'+i)?.value;h.push(v!==''?Number(v):'');if(v!=='')to+=Number(v)}showL('스코어 저장중...');try{const r=await api({action:'updateScore',round_id:editScoreData.score.round_id,이름:mn(),holes:h,total:Number($('esT')?.value)||0,_row:editScoreData.score._row});hideL();if(r.status==='ok'){toast('저장 완료');await loadData();showDetail(editScoreData.score.round_id)}else toast(r.message)}catch(e){hideL();toast('저장 실패')}}
 
-// ===== ADD FORM =====
 function initForm(){formPlayers=[];$('aDate').value=new Date().toISOString().split('T')[0];['aTime','aArea','aCourse','aField','aCaddy','aCart'].forEach(id=>$(id).value='');$('editRid').value='';$('addTitle').textContent='📝 새 라운딩';$('saveBtn').textContent='저장';if(mn())formPlayers.push({name:mn(),mode:'holes',holes:Array(18).fill(''),total:''});renderParticipants();calcPP()}
 function calcPP(){const f=Number($('aField').value)||0,c=Number($('aCaddy').value)||0,k=Number($('aCart').value)||0,n=Math.max(formPlayers.filter(p=>p.name.trim()).length,1);const v=Math.round(f+(c+k)/n);$('ppDisplay').textContent=v.toLocaleString()+'원';$('ppCount').textContent='('+n+'명)'}
 function onCourseInput(){const v=$('aCourse').value.trim().toLowerCase();if(!v){$('acCourse').classList.remove('on');return}const m=D.courses.filter(c=>(c.골프장||'').toLowerCase().includes(v)||(c.지역||'').toLowerCase().includes(v));if(!m.length){$('acCourse').classList.remove('on');return}$('acCourse').innerHTML=m.map(c=>`<div class="ac-item" onclick="$('aCourse').value='${c.골프장}';$('aArea').value='${c.지역}';$('acCourse').classList.remove('on')">${c.골프장} <span style="color:var(--light);font-size:10px">${c.지역}</span></div>`).join('');$('acCourse').classList.add('on')}
@@ -233,24 +223,17 @@ async function saveRound(){
 let stYear='전체';
 function renderStats(){
   const m=mn();if(!m){$('statBoxes').innerHTML='<div class="empty">멤버 연결 후 이용 가능</div>';return}
-
-  // 연도 필터
   const allMs=D.scores.filter(s=>s.이름===m);
   const yrs=['전체',...new Set(allMs.map(s=>{const r=D.rounds.find(x=>x.round_id===s.round_id);return r?String(r.날짜||'').substring(0,4):''}).filter(Boolean))].sort((a,b)=>a==='전체'?-1:b==='전체'?1:b.localeCompare(a));
   const sel=$('stYr');sel.innerHTML=yrs.map(y=>`<option value="${y}"${y===stYear?' selected':''}>${y==='전체'?'전체':y+'년'}</option>`).join('');
   stYear=sel.value;
-
-  // 필터된 데이터
   const ms=allMs.filter(s=>{if(stYear==='전체')return true;const r=D.rounds.find(x=>x.round_id===s.round_id);return r&&String(r.날짜||'').startsWith(stYear)});
   if(!ms.length){$('statBoxes').innerHTML='<div class="empty">기록이 없습니다</div>';$('growthCard').innerHTML='';$('halfCard').innerHTML='';$('vsCards').innerHTML='';return}
-
   const tots=ms.map(s=>Number(s.total)).filter(v=>v>0),cnt=tots.length;
   const avg=cnt?Math.round(tots.reduce((a,b)=>a+b,0)/cnt*10)/10:0;
   const best=cnt?Math.min(...tots):'-',worst=cnt?Math.max(...tots):'-';
   let tpp=0,totalCost=0;ms.forEach(s=>{const r=D.rounds.find(x=>x.round_id===s.round_id);if(r){const p=pp(r);tpp+=p;const n=gs(r.round_id).length||1;totalCost+=Number(r.필드비||0)+(Number(r.캐디비||0)+Number(r.카트비||0))/n}});
   const avgpp=cnt?Math.round(tpp/cnt):0;
-
-  // 요약 박스 3x2
   $('statBoxes').innerHTML=`
     <div class="sbox"><div class="sv">${avg}</div><div class="sl">평균</div></div>
     <div class="sbox"><div class="sv" style="color:var(--g500)">${best}</div><div class="sl">베스트</div></div>
@@ -258,36 +241,25 @@ function renderStats(){
     <div class="sbox"><div class="sv">${cnt}</div><div class="sl">총 라운딩</div></div>
     <div class="sbox"><div class="sv" style="font-size:16px">${avgpp.toLocaleString()}</div><div class="sl">평균비용(1인)</div></div>
     <div class="sbox"><div class="sv" style="font-size:16px">${Math.round(totalCost).toLocaleString()}</div><div class="sl">총비용</div></div>`;
-
-  // 스코어 추이
   const td=ms.filter(s=>Number(s.total)>0).map(s=>{const r=D.rounds.find(x=>x.round_id===s.round_id);return{d:r?.날짜||'',t:Number(s.total)}}).sort((a,b)=>a.d.localeCompare(b.d));
   mkC('chTrend','line',{labels:td.map(x=>fd(x.d)),datasets:[{label:'스코어',data:td.map(x=>x.t),borderColor:'#2d8a5e',backgroundColor:'#2d8a5e20',tension:.3,pointRadius:4,fill:true}]},{plugins:{legend:{display:false}},scales:{y:{min:Math.min(...td.map(x=>x.t))-5}}});
-
-  // 스코어 분포 도넛
   const dist={70:0,80:0,90:0,100:0,110:0};tots.forEach(t=>{if(t<80)dist[70]++;else if(t<90)dist[80]++;else if(t<100)dist[90]++;else if(t<110)dist[100]++;else dist[110]++});
   mkC('chDist','doughnut',{labels:['70대','80대','90대','100대','110+'],datasets:[{data:[dist[70],dist[80],dist[90],dist[100],dist[110]],backgroundColor:['#185fa5','#2d8a5e','#c9a84c','#e67e22','#d44040'],borderWidth:2}]},{plugins:{legend:{position:'bottom',labels:{boxWidth:12,font:{size:11}}}}});
-
-  // 최근 5 vs 이전 5
   if(td.length>=5){
-    const recent=td.slice(-5).map(x=>x.t),prev=td.slice(-10,-5);
+    const recent=td.slice(-5).map(x=>x.t),prev=td.slice(-10,-5).map(x=>x.t);
     const rAvg=Math.round(recent.reduce((a,b)=>a+b,0)/recent.length*10)/10;
     if(prev.length){
       const pAvg=Math.round(prev.reduce((a,b)=>a+b,0)/prev.length*10)/10;
-      const diff=Math.round((rAvg-pAvg)*10)/10;
-      const better=diff<0;
+      const diff=Math.round((rAvg-pAvg)*10)/10;const better=diff<0;
       $('growthCard').innerHTML=`<div class="card-t">📊 최근 성장</div>
         <div style="display:flex;justify-content:space-around;text-align:center;margin-bottom:8px">
           <div><div style="font-size:10px;color:var(--sub)">이전 ${prev.length}R</div><div style="font-size:20px;font-weight:600">${pAvg}</div></div>
-          <div style="font-size:24px;color:${better?'var(--g500)':'var(--danger)'};align-self:center">${better?'→':'→'}</div>
+          <div style="font-size:24px;color:${better?'var(--g500)':'var(--danger)'};align-self:center">→</div>
           <div><div style="font-size:10px;color:var(--sub)">최근 5R</div><div style="font-size:20px;font-weight:600;color:${better?'var(--g500)':'var(--danger)'}">${rAvg}</div></div>
         </div>
         <div style="text-align:center;font-size:13px;font-weight:500;color:${better?'var(--g500)':'var(--danger)'}">${better?'🔥':'😅'} ${Math.abs(diff)}타 ${better?'개선!':'후퇴'}</div>`;
-    }else{
-      $('growthCard').innerHTML=`<div class="card-t">📊 최근 5R 평균</div><div style="text-align:center;font-size:24px;font-weight:600">${rAvg}</div>`;
-    }
+    }else{$('growthCard').innerHTML=`<div class="card-t">📊 최근 5R 평균</div><div style="text-align:center;font-size:24px;font-weight:600">${rAvg}</div>`}
   }else $('growthCard').innerHTML='';
-
-  // 전반 vs 후반
   let outSum=0,outCnt=0,inSum=0,inCnt=0;
   ms.forEach(s=>{let o=0,oc=0,i=0,ic=0;
     for(let h=1;h<=9;h++){const v=s['h'+h];if(v!==''&&v!==undefined&&v!==null){o+=Number(v);oc++}}
@@ -304,13 +276,14 @@ function renderStats(){
       </div>
       <div style="text-align:center;font-size:12px;color:var(--sub)">${diff>0?'후반에 평균 +'+diff+'타 더 잃음 😤':'전반이 평균 +'+Math.abs(diff)+'타 더 잃음'}</div>`;
   }else $('halfCard').innerHTML='';
-
-  // 골프장별 평균
-  const cm={};ms.forEach(s=>{const r=D.rounds.find(x=>x.round_id===s.round_id);if(!r)return;const c=r.골프장||'-';if(!cm[c])cm[c]={s:0,c:0};cm[c].s+=Number(s.total);cm[c].c++});
+  // 골프장별 평균 - 동적 높이
+  const cm={};ms.forEach(s=>{const r=D.rounds.find(x=>x.round_id===s.round_id);if(!r)return;const c=(r.골프장||'-').replace(/\(.*\)/,'').trim();if(!cm[c])cm[c]={s:0,c:0};cm[c].s+=Number(s.total);cm[c].c++});
   const ce=Object.entries(cm).filter(([,v])=>v.c>0).sort((a,b)=>a[1].s/a[1].c-b[1].s/b[1].c);
-  if(ce.length)mkC('chCourse','bar',{labels:ce.map(c=>c[0].length>6?c[0].substring(0,6)+'…':c[0]),datasets:[{label:'평균',data:ce.map(c=>Math.round(c[1].s/c[1].c*10)/10),backgroundColor:ce.map((_,i)=>i===0?'#2d8a5e':'#c9a84c'),borderRadius:4}]},{indexAxis:'y',plugins:{legend:{display:false}},scales:{x:{min:Math.min(...ce.map(c=>c[1].s/c[1].c))-3}}});
-
-  // 1:1 전적
+  if(ce.length){
+    const chH=Math.max(120,ce.length*40);
+    $('courseChartWrap').innerHTML=`<canvas id="chCourse" style="max-height:none;height:${chH}px"></canvas>`;
+    mkC('chCourse','bar',{labels:ce.map(c=>c[0]+'('+c[1].c+')'),datasets:[{label:'평균',data:ce.map(c=>Math.round(c[1].s/c[1].c*10)/10),backgroundColor:ce.map((_,i)=>i===0?'#2d8a5e':'#c9a84c'),borderRadius:4}]},{indexAxis:'y',maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{min:Math.min(...ce.map(c=>c[1].s/c[1].c))-3}}});
+  }
   const vs={};ms.forEach(s=>{const rd=s.round_id;const myT=Number(s.total);if(!myT)return;
     D.scores.filter(o=>o.round_id===rd&&o.이름!==m).forEach(o=>{const oT=Number(o.total);if(!oT)return;
       if(!vs[o.이름])vs[o.이름]={w:0,l:0,d:0,cnt:0};vs[o.이름].cnt++;
@@ -327,9 +300,8 @@ function renderStats(){
   }else $('vsCards').innerHTML='';
 }
 $('stYr').onchange=function(){stYear=this.value;renderStats()};
-function mkC(id,type,data,opts={}){if(CH[id])CH[id].destroy();CH[id]=new Chart($(id).getContext('2d'),{type,data,options:{responsive:true,maintainAspectRatio:true,scales:{x:{grid:{display:false}},y:{grid:{color:'#eee'}}},...opts}})}
+function mkC(id,type,data,opts={}){if(CH[id])CH[id].destroy();CH[id]=new Chart($(id).getContext('2d'),{type,data,options:{responsive:true,maintainAspectRatio:true,...opts,scales:{x:{grid:{display:false}},y:{grid:{color:'#eee'}},...(opts.scales||{})}}})}
 
-// Init
 loadSt();if(USER)enter();
 document.addEventListener('click',e=>{if(!e.target.closest('.ac-wrap'))document.querySelectorAll('.ac-list').forEach(l=>l.classList.remove('on'))});
 if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
