@@ -327,7 +327,6 @@ function renderStats(){
   }else $('vsCards').innerHTML='';
 }
 $('stYr').onchange=function(){stYear=this.value;renderStats()};
-}
 function mkC(id,type,data,opts={}){if(CH[id])CH[id].destroy();CH[id]=new Chart($(id).getContext('2d'),{type,data,options:{responsive:true,maintainAspectRatio:true,scales:{x:{grid:{display:false}},y:{grid:{color:'#eee'}}},...opts}})}
 
 // Init
