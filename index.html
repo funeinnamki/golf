@@ -6,10 +6,10 @@
 <meta name="theme-color" content="#1a3a28">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Golf Is Life">
+<meta name="apple-mobile-web-app-title" content="Golf">
 <link rel="manifest" href="manifest.json">
-<link rel="apple-touch-icon" href="icon-192.png">
-<title>Golf Is Life</title>
+<link rel="apple-touch-icon" href="icon192.png">
+<title>Golf is 40's Life</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700&family=Playfair+Display:wght@500;700&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <style>
@@ -31,7 +31,7 @@
 .s-birdie{color:#1d9e75!important;font-weight:700!important}.s-par{color:var(--text)!important}.s-bogey{color:var(--gold)!important}.s-dbl{color:var(--danger)!important}.s-eagle{color:#185fa5!important;font-weight:700!important}
 .pbox{border:1px solid var(--border);border-radius:var(--r);padding:12px;margin-bottom:8px;background:#fafdf9}.pbox-top{display:flex;align-items:center;gap:8px;margin-bottom:8px}.pbox-av{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:500;color:#fff;flex-shrink:0}.pbox-name{font-size:13px;font-weight:500;flex:1}.pbox-mode{display:flex;gap:4px;margin-bottom:8px}.pbox-mode button{flex:1}
 .ac-wrap{position:relative}.ac-list{position:absolute;top:100%;left:0;right:0;background:var(--card);border:1px solid var(--border);border-radius:var(--rs);max-height:150px;overflow-y:auto;z-index:50;display:none}.ac-list.on{display:block}.ac-item{padding:8px 12px;font-size:12px;cursor:pointer}.ac-item:hover{background:var(--g100)}
-.sgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px}.sbox{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:12px;text-align:center}.sbox .sv{font-size:20px;font-weight:500;color:var(--g700)}.sbox .sl{font-size:10px;color:var(--sub);margin-top:1px}.chart-box{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:14px;margin-bottom:10px}.chart-box .ct-t{font-size:12px;font-weight:500;margin-bottom:8px;color:var(--g800)}canvas{max-height:240px}
+.sgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px}.sgrid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:10px}.sbox{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:12px;text-align:center}.sbox .sv{font-size:20px;font-weight:500;color:var(--g700)}.sbox .sl{font-size:10px;color:var(--sub);margin-top:1px}.chart-box{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:14px;margin-bottom:10px}.chart-box .ct-t{font-size:12px;font-weight:500;margin-bottom:8px;color:var(--g800)}canvas{max-height:240px}
 .det-hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}.det-back{background:none;border:none;font-size:12px;color:var(--g600);cursor:pointer;font-family:'Noto Sans KR'}
 .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--g800);color:#fff;padding:10px 20px;border-radius:24px;font-size:12px;z-index:300;opacity:0;transition:opacity .3s;pointer-events:none}.toast.on{opacity:1}
 .ld{display:flex;align-items:center;justify-content:center;padding:40px;color:var(--sub);font-size:12px;flex-direction:column;gap:10px}.golf-ball{width:36px;height:36px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#fff 0%,#f0f0e8 40%,#ddd 100%);box-shadow:inset -3px -3px 6px rgba(0,0,0,.1),1px 2px 4px rgba(0,0,0,.15);position:relative;animation:bounce .6s ease-in-out infinite}.golf-ball::after{content:'';position:absolute;top:30%;left:25%;width:50%;height:40%;background:radial-gradient(circle,rgba(0,0,0,.06) 1px,transparent 1px);background-size:5px 5px;border-radius:50%}@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
@@ -41,12 +41,12 @@
 </style>
 </head>
 <body>
-<div class="auth-wrap" id="auth"><div class="auth-box"><div class="auth-logo"><div class="ic" style="width:56px;height:56px;font-size:24px;background:linear-gradient(135deg,#1a3a28,#27654a);color:#c9a84c;letter-spacing:-1px;font-family:'Playfair Display',serif;font-weight:700">G</div><h1 style="font-size:20px;letter-spacing:2px">GOLF IS LIFE</h1><p>라운딩 기록 · 스코어 · 통계</p></div>
+<div class="auth-wrap" id="auth"><div class="auth-box"><div class="auth-logo"><img src="icon-192.png" style="width:72px;height:72px;border-radius:16px;margin-bottom:8px" onerror="this.style.display='none'"><h1 style="font-size:18px;letter-spacing:2px;font-variant-numeric:lining-nums">GOLF IS 40's LIFE</h1><p>라운딩 기록 · 스코어 · 통계</p></div>
 <div id="loginF"><div id="loginErr" class="auth-err hide"></div><div class="fg"><label>아이디</label><input id="lId" type="text" placeholder="아이디"></div><div class="fg"><label>비밀번호</label><input id="lPw" type="password" placeholder="비밀번호"></div><button class="auth-btn" onclick="doLogin()">로그인</button><div class="auth-sw">계정이 없으신가요? <a onclick="showReg()">회원가입</a></div></div>
 <div id="regF" class="hide"><div id="regErr" class="auth-err hide"></div><div class="fg"><label>아이디 (3자 이상)</label><input id="rId" type="text"></div><div class="fg"><label>비밀번호 (4자 이상)</label><input id="rPw" type="password"></div><div class="fg"><label>이름</label><input id="rNm" type="text" placeholder="표시 이름"></div><div class="fg"><label>멤버 연결</label><input id="rMem" type="text" placeholder="골프 멤버 이름 (예: 남기섭)"></div><button class="auth-btn" onclick="doReg()">회원가입</button><div class="auth-sw">이미 계정이 있으신가요? <a onclick="showLogin()">로그인</a></div></div></div></div>
 
 <div class="app" id="app">
-<div class="hdr"><div class="hdr-top"><div class="logo" onclick="loadData()" style="cursor:pointer"><div class="ic" style="background:linear-gradient(135deg,var(--gold),#e8d48b);font-family:'Playfair Display',serif;font-weight:700;color:var(--g800);font-size:14px">G</div><h1 style="font-size:15px;letter-spacing:1.5px">GOLF IS LIFE</h1></div><div class="hdr-r"><div class="ubadge"><div class="dot"></div><span id="uname"></span></div><button class="ibtn" onclick="doLogout()">⏻</button></div></div>
+<div class="hdr"><div class="hdr-top"><div class="logo" onclick="loadData()" style="cursor:pointer"><img src="icon-192.png" style="width:30px;height:30px;border-radius:6px"><h1 style="font-size:14px;letter-spacing:1px;font-variant-numeric:lining-nums">GOLF IS 40's LIFE</h1></div><div class="hdr-r"><div class="ubadge"><div class="dot"></div><span id="uname"></span></div><button class="ibtn" onclick="doLogout()">⏻</button></div></div>
 <div class="tabs"><button class="tab on" data-t="list" onclick="goTab('list')">📋 기록</button><button class="tab" data-t="add" onclick="goTab('add')">➕ 입력</button><button class="tab" data-t="stats" onclick="goTab('stats')">📊 통계</button></div></div>
 <div class="toast" id="toast"></div>
 <div class="loading-overlay" id="loadingOv"><div class="golf-ball"></div><p id="loadingMsg">저장중...</p></div>
@@ -61,7 +61,16 @@
 <div class="card"><div class="card-t" style="justify-content:space-between"><span>👥 참가자</span><button class="btn btn-s btn-sm" onclick="addPlayer()">+ 추가</button></div>
 <div id="participants"></div></div>
 <button class="btn btn-p btn-blk" onclick="saveRound()" style="padding:14px;font-size:14px" id="saveBtn">저장</button></div>
-<!-- 통계 --><div class="page" id="pg-stats"><div class="sgrid" id="statBoxes"></div><div class="chart-box"><div class="ct-t">📈 스코어 추이</div><canvas id="chTrend"></canvas></div><div class="chart-box"><div class="ct-t">⛳ 홀별 평균 오버파</div><canvas id="chHole"></canvas></div><div class="chart-box"><div class="ct-t">👥 동반자별 내 평균</div><canvas id="chBuddy"></canvas></div></div>
+<!-- 통계 --><div class="page" id="pg-stats">
+<div class="fbar"><select class="fsel" id="stYr" onchange="renderStats()"></select></div>
+<div class="sgrid3" id="statBoxes"></div>
+<div class="chart-box"><div class="ct-t">📈 스코어 추이</div><canvas id="chTrend"></canvas></div>
+<div class="chart-box"><div class="ct-t">🎯 스코어 분포</div><canvas id="chDist"></canvas></div>
+<div class="card" id="growthCard"></div>
+<div class="card" id="halfCard"></div>
+<div class="chart-box"><div class="ct-t">🏌️ 골프장별 내 평균</div><canvas id="chCourse"></canvas></div>
+<div id="vsCards"></div>
+</div>
 <!-- 상세 --><div class="page" id="pg-detail"><div class="det-hdr"><button class="det-back" onclick="goTab('list')">← 목록</button><div style="display:flex;gap:4px"><button class="btn btn-s btn-sm" onclick="editRound()">수정</button><button class="btn btn-d btn-sm" onclick="delRound()">삭제</button></div></div><div id="detContent"></div></div>
 <!-- 홀별 수정 --><div class="page" id="pg-editsc"><div class="det-hdr"><button class="det-back" onclick="showDetail(editScoreData?.score?.round_id)">← 돌아가기</button></div><div class="card"><div class="card-t">🏌️ 내 홀별 스코어 입력</div><div id="editScCard"></div><button class="btn btn-p btn-blk" style="margin-top:12px" onclick="saveMyScore()">저장</button></div></div>
 </div></div>
@@ -221,20 +230,103 @@ async function saveRound(){
     hideL();if(r.status==='ok'){toast(isEdit?'수정 완료!':'저장 완료!');initForm();await loadData();goTab('list')}else toast(r.message)}catch(e){hideL();toast('저장 실패')}}
 
 // ===== STATS =====
-function renderStats(){const m=mn();if(!m){$('statBoxes').innerHTML='<div class="empty">멤버 연결 후 이용 가능</div>';return}
-  const ms=D.scores.filter(s=>s.이름===m);if(!ms.length){$('statBoxes').innerHTML='<div class="empty">기록이 없습니다</div>';return}
+let stYear='전체';
+function renderStats(){
+  const m=mn();if(!m){$('statBoxes').innerHTML='<div class="empty">멤버 연결 후 이용 가능</div>';return}
+
+  // 연도 필터
+  const allMs=D.scores.filter(s=>s.이름===m);
+  const yrs=['전체',...new Set(allMs.map(s=>{const r=D.rounds.find(x=>x.round_id===s.round_id);return r?String(r.날짜||'').substring(0,4):''}).filter(Boolean))].sort((a,b)=>a==='전체'?-1:b==='전체'?1:b.localeCompare(a));
+  const sel=$('stYr');sel.innerHTML=yrs.map(y=>`<option value="${y}"${y===stYear?' selected':''}>${y==='전체'?'전체':y+'년'}</option>`).join('');
+  stYear=sel.value;
+
+  // 필터된 데이터
+  const ms=allMs.filter(s=>{if(stYear==='전체')return true;const r=D.rounds.find(x=>x.round_id===s.round_id);return r&&String(r.날짜||'').startsWith(stYear)});
+  if(!ms.length){$('statBoxes').innerHTML='<div class="empty">기록이 없습니다</div>';$('growthCard').innerHTML='';$('halfCard').innerHTML='';$('vsCards').innerHTML='';return}
+
   const tots=ms.map(s=>Number(s.total)).filter(v=>v>0),cnt=tots.length;
-  const avg=cnt?Math.round(tots.reduce((a,b)=>a+b,0)/cnt*10)/10:0,best=cnt?Math.min(...tots):'-';
-  let tpp=0;ms.forEach(s=>{const r=D.rounds.find(x=>x.round_id===s.round_id);if(r)tpp+=pp(r)});const avgpp=cnt?Math.round(tpp/cnt):0;
-  $('statBoxes').innerHTML=`<div class="sbox"><div class="sv">${cnt}</div><div class="sl">총 라운딩</div></div><div class="sbox"><div class="sv">${avg}</div><div class="sl">평균</div></div><div class="sbox"><div class="sv" style="color:var(--gold)">${best}</div><div class="sl">베스트</div></div><div class="sbox"><div class="sv" style="font-size:16px">${avgpp.toLocaleString()}</div><div class="sl">평균비용(1인)</div></div>`;
+  const avg=cnt?Math.round(tots.reduce((a,b)=>a+b,0)/cnt*10)/10:0;
+  const best=cnt?Math.min(...tots):'-',worst=cnt?Math.max(...tots):'-';
+  let tpp=0,totalCost=0;ms.forEach(s=>{const r=D.rounds.find(x=>x.round_id===s.round_id);if(r){const p=pp(r);tpp+=p;const n=gs(r.round_id).length||1;totalCost+=Number(r.필드비||0)+(Number(r.캐디비||0)+Number(r.카트비||0))/n}});
+  const avgpp=cnt?Math.round(tpp/cnt):0;
+
+  // 요약 박스 3x2
+  $('statBoxes').innerHTML=`
+    <div class="sbox"><div class="sv">${avg}</div><div class="sl">평균</div></div>
+    <div class="sbox"><div class="sv" style="color:var(--g500)">${best}</div><div class="sl">베스트</div></div>
+    <div class="sbox"><div class="sv" style="color:var(--danger)">${worst}</div><div class="sl">워스트</div></div>
+    <div class="sbox"><div class="sv">${cnt}</div><div class="sl">총 라운딩</div></div>
+    <div class="sbox"><div class="sv" style="font-size:16px">${avgpp.toLocaleString()}</div><div class="sl">평균비용(1인)</div></div>
+    <div class="sbox"><div class="sv" style="font-size:16px">${Math.round(totalCost).toLocaleString()}</div><div class="sl">총비용</div></div>`;
+
+  // 스코어 추이
   const td=ms.filter(s=>Number(s.total)>0).map(s=>{const r=D.rounds.find(x=>x.round_id===s.round_id);return{d:r?.날짜||'',t:Number(s.total)}}).sort((a,b)=>a.d.localeCompare(b.d));
   mkC('chTrend','line',{labels:td.map(x=>fd(x.d)),datasets:[{label:'스코어',data:td.map(x=>x.t),borderColor:'#2d8a5e',backgroundColor:'#2d8a5e20',tension:.3,pointRadius:4,fill:true}]},{plugins:{legend:{display:false}},scales:{y:{min:Math.min(...td.map(x=>x.t))-5}}});
-  const hs=Array(18).fill(0),hc=Array(18).fill(0);ms.forEach(s=>{for(let i=1;i<=18;i++){const v=s['h'+i];if(v!==''&&v!==undefined&&v!==null){hs[i-1]+=Number(v);hc[i-1]++}}});
-  const ha=hs.map((s,i)=>hc[i]?Math.round(s/hc[i]*10)/10:0);
-  mkC('chHole','bar',{labels:Array.from({length:18},(_,i)=>(i+1)+''),datasets:[{data:ha,backgroundColor:ha.map(v=>v<=0.5?'#2d8a5e':v<=1.5?'#c9a84c':'#d44040'),borderRadius:4}]},{plugins:{legend:{display:false}},scales:{y:{beginAtZero:true}}});
-  const bd={};ms.forEach(s=>{D.scores.filter(o=>o.round_id===s.round_id&&o.이름!==m).forEach(o=>{if(!bd[o.이름])bd[o.이름]={c:0,s:0};bd[o.이름].c++;bd[o.이름].s+=Number(s.total)})});
-  const be=Object.entries(bd).filter(([,v])=>v.c>0).sort((a,b)=>b[1].c-a[1].c);
-  if(be.length)mkC('chBuddy','bar',{labels:be.map(b=>b[0]),datasets:[{label:'내 평균',data:be.map(b=>Math.round(b[1].s/b[1].c*10)/10),backgroundColor:'#c9a84c',borderRadius:4},{label:'라운드수',data:be.map(b=>b[1].c),backgroundColor:'#2d8a5e',borderRadius:4}]},{indexAxis:'y',plugins:{legend:{position:'bottom',labels:{boxWidth:10,font:{size:10}}}}});
+
+  // 스코어 분포 도넛
+  const dist={70:0,80:0,90:0,100:0,110:0};tots.forEach(t=>{if(t<80)dist[70]++;else if(t<90)dist[80]++;else if(t<100)dist[90]++;else if(t<110)dist[100]++;else dist[110]++});
+  mkC('chDist','doughnut',{labels:['70대','80대','90대','100대','110+'],datasets:[{data:[dist[70],dist[80],dist[90],dist[100],dist[110]],backgroundColor:['#185fa5','#2d8a5e','#c9a84c','#e67e22','#d44040'],borderWidth:2}]},{plugins:{legend:{position:'bottom',labels:{boxWidth:12,font:{size:11}}}}});
+
+  // 최근 5 vs 이전 5
+  if(td.length>=5){
+    const recent=td.slice(-5).map(x=>x.t),prev=td.slice(-10,-5);
+    const rAvg=Math.round(recent.reduce((a,b)=>a+b,0)/recent.length*10)/10;
+    if(prev.length){
+      const pAvg=Math.round(prev.reduce((a,b)=>a+b,0)/prev.length*10)/10;
+      const diff=Math.round((rAvg-pAvg)*10)/10;
+      const better=diff<0;
+      $('growthCard').innerHTML=`<div class="card-t">📊 최근 성장</div>
+        <div style="display:flex;justify-content:space-around;text-align:center;margin-bottom:8px">
+          <div><div style="font-size:10px;color:var(--sub)">이전 ${prev.length}R</div><div style="font-size:20px;font-weight:600">${pAvg}</div></div>
+          <div style="font-size:24px;color:${better?'var(--g500)':'var(--danger)'};align-self:center">${better?'→':'→'}</div>
+          <div><div style="font-size:10px;color:var(--sub)">최근 5R</div><div style="font-size:20px;font-weight:600;color:${better?'var(--g500)':'var(--danger)'}">${rAvg}</div></div>
+        </div>
+        <div style="text-align:center;font-size:13px;font-weight:500;color:${better?'var(--g500)':'var(--danger)'}">${better?'🔥':'😅'} ${Math.abs(diff)}타 ${better?'개선!':'후퇴'}</div>`;
+    }else{
+      $('growthCard').innerHTML=`<div class="card-t">📊 최근 5R 평균</div><div style="text-align:center;font-size:24px;font-weight:600">${rAvg}</div>`;
+    }
+  }else $('growthCard').innerHTML='';
+
+  // 전반 vs 후반
+  let outSum=0,outCnt=0,inSum=0,inCnt=0;
+  ms.forEach(s=>{let o=0,oc=0,i=0,ic=0;
+    for(let h=1;h<=9;h++){const v=s['h'+h];if(v!==''&&v!==undefined&&v!==null){o+=Number(v);oc++}}
+    for(let h=10;h<=18;h++){const v=s['h'+h];if(v!==''&&v!==undefined&&v!==null){i+=Number(v);ic++}}
+    if(oc===9){outSum+=o;outCnt++}if(ic===9){inSum+=i;inCnt++}
+  });
+  if(outCnt&&inCnt){
+    const oAvg=Math.round(outSum/outCnt*10)/10,iAvg=Math.round(inSum/inCnt*10)/10;
+    const diff=Math.round((iAvg-oAvg)*10)/10;
+    $('halfCard').innerHTML=`<div class="card-t">⛳ 전반 vs 후반</div>
+      <div style="display:flex;justify-content:space-around;text-align:center;margin-bottom:8px">
+        <div><div style="font-size:10px;color:var(--sub)">전반 (OUT)</div><div style="font-size:20px;font-weight:600">${oAvg>0?'+':''}${oAvg}</div></div>
+        <div><div style="font-size:10px;color:var(--sub)">후반 (IN)</div><div style="font-size:20px;font-weight:600">${iAvg>0?'+':''}${iAvg}</div></div>
+      </div>
+      <div style="text-align:center;font-size:12px;color:var(--sub)">${diff>0?'후반에 평균 +'+diff+'타 더 잃음 😤':'전반이 평균 +'+Math.abs(diff)+'타 더 잃음'}</div>`;
+  }else $('halfCard').innerHTML='';
+
+  // 골프장별 평균
+  const cm={};ms.forEach(s=>{const r=D.rounds.find(x=>x.round_id===s.round_id);if(!r)return;const c=r.골프장||'-';if(!cm[c])cm[c]={s:0,c:0};cm[c].s+=Number(s.total);cm[c].c++});
+  const ce=Object.entries(cm).filter(([,v])=>v.c>0).sort((a,b)=>a[1].s/a[1].c-b[1].s/b[1].c);
+  if(ce.length)mkC('chCourse','bar',{labels:ce.map(c=>c[0].length>6?c[0].substring(0,6)+'…':c[0]),datasets:[{label:'평균',data:ce.map(c=>Math.round(c[1].s/c[1].c*10)/10),backgroundColor:ce.map((_,i)=>i===0?'#2d8a5e':'#c9a84c'),borderRadius:4}]},{indexAxis:'y',plugins:{legend:{display:false}},scales:{x:{min:Math.min(...ce.map(c=>c[1].s/c[1].c))-3}}});
+
+  // 1:1 전적
+  const vs={};ms.forEach(s=>{const rd=s.round_id;const myT=Number(s.total);if(!myT)return;
+    D.scores.filter(o=>o.round_id===rd&&o.이름!==m).forEach(o=>{const oT=Number(o.total);if(!oT)return;
+      if(!vs[o.이름])vs[o.이름]={w:0,l:0,d:0,cnt:0};vs[o.이름].cnt++;
+      if(myT<oT)vs[o.이름].w++;else if(myT>oT)vs[o.이름].l++;else vs[o.이름].d++})});
+  const ve=Object.entries(vs).sort((a,b)=>b[1].cnt-a[1].cnt);
+  if(ve.length){
+    $('vsCards').innerHTML='<div class="card"><div class="card-t">🏆 1:1 전적</div>'+ve.map(([name,v])=>{
+      const pct=v.cnt?Math.round(v.w/v.cnt*100):0;
+      const emoji=pct>=60?'🔥':pct>=40?'⚔️':'💀';
+      return`<div style="display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border)">
+        <div style="font-size:13px;font-weight:500">${emoji} vs ${name}</div>
+        <div style="font-size:12px;text-align:right"><span style="color:var(--g500);font-weight:600">${v.w}승</span> <span style="color:var(--danger);font-weight:600">${v.l}패</span>${v.d?' <span>'+v.d+'무</span>':''} <span style="color:var(--sub);font-size:10px">(${v.cnt}전 ${pct}%)</span></div>
+      </div>`}).join('')+'</div>';
+  }else $('vsCards').innerHTML='';
+}
+$('stYr').onchange=function(){stYear=this.value;renderStats()};
 }
 function mkC(id,type,data,opts={}){if(CH[id])CH[id].destroy();CH[id]=new Chart($(id).getContext('2d'),{type,data,options:{responsive:true,maintainAspectRatio:true,scales:{x:{grid:{display:false}},y:{grid:{color:'#eee'}}},...opts}})}
 
