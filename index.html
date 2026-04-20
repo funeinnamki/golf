@@ -1,1295 +1,310 @@
 <!DOCTYPE html>
 <html lang="ko">
-
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
-  <meta name="theme-color" content="#1a3a28">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="Golf">
-  <link rel="manifest" href="manifest.json">
-  <link rel="apple-touch-icon" href="icon192.png">
-  <title>Golf is 40's Life</title>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700&family=Playfair+Display:wght@500;700&display=swap"
-    rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-  <style>
-    :root {
-      --g800: #1a3a28;
-      --g700: #1f4d33;
-      --g600: #27654a;
-      --g500: #2d8a5e;
-      --g400: #3bb078;
-      --g300: #6fd4a0;
-      --g100: #e0f5eb;
-      --gold: #c9a84c;
-      --gold-l: #e8d48b;
-      --bg: #f6f8f5;
-      --card: #fff;
-      --text: #1a2e23;
-      --sub: #5a7268;
-      --light: #8fa89d;
-      --border: #dce8e0;
-      --danger: #d44040;
-      --danger-l: #fdeaea;
-      --sh: 0 1px 3px rgba(20, 41, 30, .08), 0 4px 12px rgba(20, 41, 30, .04);
-      --r: 12px;
-      --rs: 8px
-    }
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box
-    }
-
-    body {
-      font-family: 'Noto Sans KR', sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      min-height: 100vh;
-      -webkit-tap-highlight-color: transparent
-    }
-
-    .hide {
-      display: none !important
-    }
-
-    .auth-wrap {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: linear-gradient(160deg, var(--g800), var(--g600));
-      padding: 20px
-    }
-
-    .auth-box {
-      background: var(--card);
-      border-radius: 16px;
-      padding: 32px 24px;
-      width: 100%;
-      max-width: 360px
-    }
-
-    .auth-logo {
-      text-align: center;
-      margin-bottom: 24px
-    }
-
-    .auth-logo .ic {
-      width: 52px;
-      height: 52px;
-      border-radius: 50%;
-      background: var(--gold);
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 26px;
-      margin-bottom: 8px
-    }
-
-    .auth-logo h1 {
-      font-family: 'Playfair Display', serif;
-      font-size: 22px;
-      color: var(--g800)
-    }
-
-    .auth-logo p {
-      font-size: 12px;
-      color: var(--sub);
-      margin-top: 3px
-    }
-
-    .fg {
-      margin-bottom: 12px
-    }
-
-    .fg label {
-      display: block;
-      font-size: 11px;
-      font-weight: 500;
-      color: var(--sub);
-      margin-bottom: 4px
-    }
-
-    .fg input,
-    .fg select {
-      width: 100%;
-      padding: 10px 12px;
-      border: 1px solid var(--border);
-      border-radius: var(--rs);
-      font-size: 13px;
-      font-family: 'Noto Sans KR';
-      outline: none
-    }
-
-    .fg input:focus {
-      border-color: var(--g500)
-    }
-
-    .auth-btn {
-      width: 100%;
-      padding: 12px;
-      border: none;
-      border-radius: var(--rs);
-      background: var(--g600);
-      color: #fff;
-      font-size: 14px;
-      font-weight: 600;
-      cursor: pointer;
-      font-family: 'Noto Sans KR';
-      margin-top: 4px
-    }
-
-    .auth-btn:disabled {
-      opacity: .5
-    }
-
-    .auth-sw {
-      text-align: center;
-      margin-top: 14px;
-      font-size: 12px;
-      color: var(--sub)
-    }
-
-    .auth-sw a {
-      color: var(--g600);
-      font-weight: 600;
-      cursor: pointer
-    }
-
-    .auth-err {
-      background: var(--danger-l);
-      color: var(--danger);
-      padding: 8px 12px;
-      border-radius: var(--rs);
-      font-size: 12px;
-      margin-bottom: 10px
-    }
-
-    .app {
-      display: none;
-      padding-bottom: 70px
-    }
-
-    .app.on {
-      display: block
-    }
-
-    .hdr {
-      background: linear-gradient(135deg, var(--g800), var(--g700));
-      padding: 14px 16px 12px;
-      position: sticky;
-      top: 0;
-      z-index: 100
-    }
-
-    .hdr-top {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 10px
-    }
-
-    .logo {
-      display: flex;
-      align-items: center;
-      gap: 8px
-    }
-
-    .logo .ic {
-      width: 30px;
-      height: 30px;
-      border-radius: 50%;
-      background: var(--gold);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 15px
-    }
-
-    .logo h1 {
-      font-family: 'Playfair Display', serif;
-      font-size: 17px;
-      color: #fff
-    }
-
-    .logo .yr {
-      color: var(--gold-l);
-      font-size: 11px;
-      font-family: 'Noto Sans KR';
-      margin-left: 4px
-    }
-
-    .hdr-r {
-      display: flex;
-      align-items: center;
-      gap: 6px
-    }
-
-    .ubadge {
-      background: rgba(255, 255, 255, .12);
-      border-radius: 14px;
-      padding: 4px 10px;
-      font-size: 11px;
-      color: #fff;
-      display: flex;
-      align-items: center;
-      gap: 4px
-    }
-
-    .ubadge .dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: var(--g300)
-    }
-
-    .ibtn {
-      background: rgba(255, 255, 255, .1);
-      border: none;
-      color: #fff;
-      border-radius: 6px;
-      width: 30px;
-      height: 30px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      font-size: 13px
-    }
-
-    .tabs {
-      display: flex;
-      gap: 3px
-    }
-
-    .tab {
-      flex: 1;
-      padding: 8px 4px;
-      border: none;
-      background: rgba(255, 255, 255, .08);
-      color: rgba(255, 255, 255, .5);
-      border-radius: 7px;
-      font-size: 11px;
-      font-weight: 500;
-      cursor: pointer;
-      font-family: 'Noto Sans KR';
-      text-align: center
-    }
-
-    .tab.on {
-      background: rgba(255, 255, 255, .2);
-      color: #fff
-    }
-
-    .ct {
-      max-width: 800px;
-      margin: 0 auto;
-      padding: 12px
-    }
-
-    .page {
-      display: none
-    }
-
-    .page.on {
-      display: block
-    }
-
-    .card {
-      background: var(--card);
-      border-radius: var(--r);
-      box-shadow: var(--sh);
-      padding: 16px;
-      margin-bottom: 10px;
-      border: 1px solid var(--border)
-    }
-
-    .card-t {
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--g700);
-      margin-bottom: 10px;
-      display: flex;
-      align-items: center;
-      gap: 6px
-    }
-
-    .rc {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: var(--r);
-      padding: 13px;
-      margin-bottom: 8px;
-      cursor: pointer;
-      transition: all .15s;
-      box-shadow: var(--sh)
-    }
-
-    .rc:active {
-      transform: scale(.98)
-    }
-
-    .rc-top {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      margin-bottom: 6px
-    }
-
-    .rc-date {
-      font-size: 12px;
-      font-weight: 600;
-      color: var(--g800)
-    }
-
-    .rc-cost {
-      font-size: 11px;
-      font-weight: 600;
-      color: var(--gold);
-      background: #fdf8e8;
-      padding: 2px 8px;
-      border-radius: 12px
-    }
-
-    .rc-course {
-      font-size: 13px;
-      font-weight: 500;
-      margin-bottom: 2px
-    }
-
-    .rc-loc {
-      font-size: 10px;
-      color: var(--sub)
-    }
-
-    .rc-scores {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 4px;
-      margin-top: 7px
-    }
-
-    .sc {
-      display: flex;
-      align-items: center;
-      gap: 3px;
-      border-radius: 12px;
-      padding: 3px 8px;
-      font-size: 10px;
-      position: relative
-    }
-
-    .sc .n {
-      color: var(--sub)
-    }
-
-    .sc .v {
-      font-weight: 600
-    }
-
-    .sc-me {
-      outline: 2px solid var(--gold);
-      outline-offset: -1px
-    }
-
-    .sc-good {
-      background: #dff5e8
-    }
-
-    .sc-good .v {
-      color: var(--g800)
-    }
-
-    .sc-ok {
-      background: var(--g100)
-    }
-
-    .sc-ok .v {
-      color: var(--text)
-    }
-
-    .sc-bad {
-      background: #fde8e8
-    }
-
-    .sc-bad .v {
-      color: #791f1f
-    }
-
-    .sc-crown::before {
-      content: '👑';
-      position: absolute;
-      top: -8px;
-      left: -2px;
-      font-size: 10px
-    }
-
-    .fbar {
-      display: flex;
-      gap: 6px;
-      margin-bottom: 10px;
-      align-items: center
-    }
-
-    .fsel {
-      padding: 5px 10px;
-      border: 1px solid var(--border);
-      border-radius: var(--rs);
-      font-size: 11px;
-      font-family: 'Noto Sans KR';
-      background: #fff;
-      color: var(--text)
-    }
-
-    .fchip {
-      flex-shrink: 0;
-      padding: 4px 11px;
-      border-radius: 14px;
-      border: 1px solid var(--border);
-      background: #fff;
-      font-size: 10px;
-      cursor: pointer;
-      font-family: 'Noto Sans KR';
-      white-space: nowrap
-    }
-
-    .fchip.on {
-      background: var(--g600);
-      color: #fff;
-      border-color: var(--g600)
-    }
-
-    .fscroll {
-      display: flex;
-      gap: 4px;
-      overflow-x: auto;
-      flex: 1
-    }
-
-    .btn {
-      padding: 9px 16px;
-      border: none;
-      border-radius: var(--rs);
-      font-size: 12px;
-      font-weight: 500;
-      cursor: pointer;
-      font-family: 'Noto Sans KR';
-      transition: all .15s
-    }
-
-    .btn-p {
-      background: var(--g600);
-      color: #fff
-    }
-
-    .btn-p:active {
-      background: var(--g500)
-    }
-
-    .btn-s {
-      background: var(--g100);
-      color: var(--g700)
-    }
-
-    .btn-d {
-      background: var(--danger-l);
-      color: var(--danger)
-    }
-
-    .btn-sm {
-      padding: 5px 10px;
-      font-size: 10px
-    }
-
-    .btn-blk {
-      width: 100%
-    }
-
-    .frow {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 8px
-    }
-
-    .frow3 {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      gap: 8px
-    }
-
-    input[type=date],
-    input[type=time],
-    input[type=text],
-    input[type=number],
-    input[type=password] {
-      width: 100%;
-      padding: 9px 10px;
-      border: 1px solid var(--border);
-      border-radius: var(--rs);
-      font-size: 13px;
-      font-family: 'Noto Sans KR';
-      outline: none;
-      background: #fff
-    }
-
-    input:focus {
-      border-color: var(--g500)
-    }
-
-    .scard {
-      overflow-x: auto;
-      margin: 6px 0
-    }
-
-    .scard table {
-      border-collapse: collapse;
-      min-width: 100%;
-      font-size: 11px;
-      text-align: center
-    }
-
-    .scard th,
-    .scard td {
-      padding: 4px 2px;
-      min-width: 28px;
-      border: 1px solid var(--border)
-    }
-
-    .scard th {
-      background: var(--g100);
-      color: var(--g700);
-      font-weight: 500;
-      font-size: 10px
-    }
-
-    .scard .score-cell {
-      padding: 0
-    }
-
-    .scard .score-cell input {
-      width: 100%;
-      border: none;
-      text-align: center;
-      font-size: 12px;
-      font-weight: 600;
-      padding: 5px 0;
-      font-family: 'Noto Sans KR';
-      outline: none;
-      background: transparent
-    }
-
-    .scard .subtotal {
-      background: #f5f5f0;
-      font-weight: 600;
-      color: var(--g800)
-    }
-
-    .scard .label-col {
-      background: var(--g100);
-      font-weight: 500;
-      color: var(--g700);
-      white-space: nowrap;
-      padding: 4px 6px
-    }
-
-    .s-birdie {
-      color: #1d9e75 !important;
-      font-weight: 700 !important
-    }
-
-    .s-par {
-      color: var(--text) !important
-    }
-
-    .s-bogey {
-      color: var(--gold) !important
-    }
-
-    .s-dbl {
-      color: var(--danger) !important
-    }
-
-    .s-eagle {
-      color: #185fa5 !important;
-      font-weight: 700 !important
-    }
-
-    .pbox {
-      border: 1px solid var(--border);
-      border-radius: var(--r);
-      padding: 12px;
-      margin-bottom: 8px;
-      background: #fafdf9
-    }
-
-    .pbox-top {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      margin-bottom: 8px
-    }
-
-    .pbox-av {
-      width: 28px;
-      height: 28px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 11px;
-      font-weight: 500;
-      color: #fff;
-      flex-shrink: 0
-    }
-
-    .pbox-name {
-      font-size: 13px;
-      font-weight: 500;
-      flex: 1
-    }
-
-    .pbox-mode {
-      display: flex;
-      gap: 4px;
-      margin-bottom: 8px
-    }
-
-    .pbox-mode button {
-      flex: 1
-    }
-
-    .ac-wrap {
-      position: relative
-    }
-
-    .ac-list {
-      position: absolute;
-      top: 100%;
-      left: 0;
-      right: 0;
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: var(--rs);
-      max-height: 150px;
-      overflow-y: auto;
-      z-index: 50;
-      display: none
-    }
-
-    .ac-list.on {
-      display: block
-    }
-
-    .ac-item {
-      padding: 8px 12px;
-      font-size: 12px;
-      cursor: pointer
-    }
-
-    .ac-item:hover {
-      background: var(--g100)
-    }
-
-    .sgrid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 8px;
-      margin-bottom: 10px
-    }
-
-    .sgrid3 {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      gap: 8px;
-      margin-bottom: 10px
-    }
-
-    .sbox {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: var(--r);
-      padding: 12px;
-      text-align: center
-    }
-
-    .sbox .sv {
-      font-size: 20px;
-      font-weight: 500;
-      color: var(--g700)
-    }
-
-    .sbox .sl {
-      font-size: 10px;
-      color: var(--sub);
-      margin-top: 1px
-    }
-
-    .chart-box {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: var(--r);
-      padding: 14px;
-      margin-bottom: 10px
-    }
-
-    .chart-box .ct-t {
-      font-size: 12px;
-      font-weight: 500;
-      margin-bottom: 8px;
-      color: var(--g800)
-    }
-
-    canvas {
-      max-height: 240px
-    }
-
-    .det-hdr {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 12px
-    }
-
-    .det-back {
-      background: none;
-      border: none;
-      font-size: 12px;
-      color: var(--g600);
-      cursor: pointer;
-      font-family: 'Noto Sans KR'
-    }
-
-    .toast {
-      position: fixed;
-      bottom: 24px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: var(--g800);
-      color: #fff;
-      padding: 10px 20px;
-      border-radius: 24px;
-      font-size: 12px;
-      z-index: 300;
-      opacity: 0;
-      transition: opacity .3s;
-      pointer-events: none
-    }
-
-    .toast.on {
-      opacity: 1
-    }
-
-    .ld {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 40px;
-      color: var(--sub);
-      font-size: 12px;
-      flex-direction: column;
-      gap: 10px
-    }
-
-    .golf-ball {
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      background: radial-gradient(circle at 35% 35%, #fff 0%, #f0f0e8 40%, #ddd 100%);
-      box-shadow: inset -3px -3px 6px rgba(0, 0, 0, .1), 1px 2px 4px rgba(0, 0, 0, .15);
-      position: relative;
-      animation: bounce .6s ease-in-out infinite
-    }
-
-    .golf-ball::after {
-      content: '';
-      position: absolute;
-      top: 30%;
-      left: 25%;
-      width: 50%;
-      height: 40%;
-      background: radial-gradient(circle, rgba(0, 0, 0, .06) 1px, transparent 1px);
-      background-size: 5px 5px;
-      border-radius: 50%
-    }
-
-    @keyframes bounce {
-
-      0%,
-      100% {
-        transform: translateY(0)
-      }
-
-      50% {
-        transform: translateY(-12px)
-      }
-    }
-
-    .loading-overlay {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, .4);
-      z-index: 250;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-      gap: 12px
-    }
-
-    .loading-overlay.on {
-      display: flex
-    }
-
-    .loading-overlay .golf-ball {
-      width: 48px;
-      height: 48px
-    }
-
-    .loading-overlay p {
-      color: #fff;
-      font-size: 14px;
-      font-weight: 500
-    }
-
-    .empty {
-      text-align: center;
-      padding: 40px 20px;
-      color: var(--light)
-    }
-
-    .empty .eic {
-      font-size: 36px;
-      margin-bottom: 8px
-    }
-
-    @media(max-width:480px) {
-      .frow {
-        grid-template-columns: 1fr
-      }
-
-      .ct {
-        padding: 10px
-      }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+<meta name="theme-color" content="#1a3a28">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Golf">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon192.png">
+<title>Golf is 40's Life</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700&family=Playfair+Display:wght@500;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+:root{--g800:#1a3a28;--g700:#1f4d33;--g600:#27654a;--g500:#2d8a5e;--g400:#3bb078;--g300:#6fd4a0;--g100:#e0f5eb;--gold:#c9a84c;--gold-l:#e8d48b;--bg:#f6f8f5;--card:#fff;--text:#1a2e23;--sub:#5a7268;--light:#8fa89d;--border:#dce8e0;--danger:#d44040;--danger-l:#fdeaea;--sh:0 1px 3px rgba(20,41,30,.08),0 4px 12px rgba(20,41,30,.04);--r:12px;--rs:8px}
+*{margin:0;padding:0;box-sizing:border-box}body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;-webkit-tap-highlight-color:transparent}.hide{display:none!important}
+.auth-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;background:linear-gradient(160deg,var(--g800),var(--g600));padding:20px}.auth-box{background:var(--card);border-radius:16px;padding:32px 24px;width:100%;max-width:360px}.auth-logo{text-align:center;margin-bottom:24px}.auth-logo .ic{width:52px;height:52px;border-radius:50%;background:var(--gold);display:inline-flex;align-items:center;justify-content:center;font-size:26px;margin-bottom:8px}.auth-logo h1{font-family:'Playfair Display',serif;font-size:22px;color:var(--g800)}.auth-logo p{font-size:12px;color:var(--sub);margin-top:3px}
+.fg{margin-bottom:12px}.fg label{display:block;font-size:11px;font-weight:500;color:var(--sub);margin-bottom:4px}.fg input,.fg select{width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:var(--rs);font-size:13px;font-family:'Noto Sans KR';outline:none}.fg input:focus{border-color:var(--g500)}
+.auth-btn{width:100%;padding:12px;border:none;border-radius:var(--rs);background:var(--g600);color:#fff;font-size:14px;font-weight:600;cursor:pointer;font-family:'Noto Sans KR';margin-top:4px}.auth-btn:disabled{opacity:.5}.auth-sw{text-align:center;margin-top:14px;font-size:12px;color:var(--sub)}.auth-sw a{color:var(--g600);font-weight:600;cursor:pointer}.auth-err{background:var(--danger-l);color:var(--danger);padding:8px 12px;border-radius:var(--rs);font-size:12px;margin-bottom:10px}
+.app{display:none;padding-bottom:70px}.app.on{display:block}.hdr{background:linear-gradient(135deg,var(--g800),var(--g700));padding:14px 16px 12px;position:sticky;top:0;z-index:100}.hdr-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}.logo{display:flex;align-items:center;gap:8px}.logo .ic{width:30px;height:30px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;font-size:15px}.logo h1{font-family:'Playfair Display',serif;font-size:17px;color:#fff}.logo .yr{color:var(--gold-l);font-size:11px;font-family:'Noto Sans KR';margin-left:4px}.hdr-r{display:flex;align-items:center;gap:6px}.ubadge{background:rgba(255,255,255,.12);border-radius:14px;padding:4px 10px;font-size:11px;color:#fff;display:flex;align-items:center;gap:4px}.ubadge .dot{width:6px;height:6px;border-radius:50%;background:var(--g300)}.ibtn{background:rgba(255,255,255,.1);border:none;color:#fff;border-radius:6px;width:30px;height:30px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:13px}
+.tabs{display:flex;gap:3px}.tab{flex:1;padding:8px 4px;border:none;background:rgba(255,255,255,.08);color:rgba(255,255,255,.5);border-radius:7px;font-size:11px;font-weight:500;cursor:pointer;font-family:'Noto Sans KR';text-align:center}.tab.on{background:rgba(255,255,255,.2);color:#fff}
+.ct{max-width:800px;margin:0 auto;padding:12px}.page{display:none}.page.on{display:block}
+.card{background:var(--card);border-radius:var(--r);box-shadow:var(--sh);padding:16px;margin-bottom:10px;border:1px solid var(--border)}.card-t{font-size:13px;font-weight:600;color:var(--g700);margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.rc{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:13px;margin-bottom:8px;cursor:pointer;transition:all .15s;box-shadow:var(--sh)}.rc:active{transform:scale(.98)}.rc-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px}.rc-date{font-size:12px;font-weight:600;color:var(--g800)}.rc-cost{font-size:11px;font-weight:600;color:var(--gold);background:#fdf8e8;padding:2px 8px;border-radius:12px}.rc-course{font-size:13px;font-weight:500;margin-bottom:2px}.rc-loc{font-size:10px;color:var(--sub)}.rc-scores{display:flex;flex-wrap:wrap;gap:4px;margin-top:7px}
+.sc{display:flex;align-items:center;gap:3px;border-radius:12px;padding:3px 8px;font-size:10px;position:relative}.sc .n{color:var(--sub)}.sc .v{font-weight:600}.sc-me{outline:2px solid var(--gold);outline-offset:-1px}.sc-good{background:#dff5e8}.sc-good .v{color:var(--g800)}.sc-ok{background:var(--g100)}.sc-ok .v{color:var(--text)}.sc-bad{background:#fde8e8}.sc-bad .v{color:#791f1f}.sc-crown::before{content:'👑';position:absolute;top:-8px;left:-2px;font-size:10px}
+.fbar{display:flex;gap:6px;margin-bottom:10px;align-items:center}.fsel{padding:5px 10px;border:1px solid var(--border);border-radius:var(--rs);font-size:11px;font-family:'Noto Sans KR';background:#fff;color:var(--text)}
+.btn{padding:9px 16px;border:none;border-radius:var(--rs);font-size:12px;font-weight:500;cursor:pointer;font-family:'Noto Sans KR';transition:all .15s}.btn-p{background:var(--g600);color:#fff}.btn-p:active{background:var(--g500)}.btn-s{background:var(--g100);color:var(--g700)}.btn-d{background:var(--danger-l);color:var(--danger)}.btn-sm{padding:5px 10px;font-size:10px}.btn-blk{width:100%}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:8px}.frow3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}input[type=date],input[type=time],input[type=text],input[type=number],input[type=password]{width:100%;padding:9px 10px;border:1px solid var(--border);border-radius:var(--rs);font-size:13px;font-family:'Noto Sans KR';outline:none;background:#fff}input:focus{border-color:var(--g500)}
+.scard{overflow-x:auto;margin:6px 0}.scard table{border-collapse:collapse;min-width:100%;font-size:11px;text-align:center}.scard th,.scard td{padding:4px 2px;min-width:28px;border:1px solid var(--border)}.scard th{background:var(--g100);color:var(--g700);font-weight:500;font-size:10px}.scard .score-cell{padding:0}.scard .score-cell input{width:100%;border:none;text-align:center;font-size:12px;font-weight:600;padding:5px 0;font-family:'Noto Sans KR';outline:none;background:transparent}.scard .subtotal{background:#f5f5f0;font-weight:600;color:var(--g800)}.scard .label-col{background:var(--g100);font-weight:500;color:var(--g700);white-space:nowrap;padding:4px 6px}
+.s-birdie{color:#1d9e75!important;font-weight:700!important}.s-par{color:var(--text)!important}.s-bogey{color:var(--gold)!important}.s-dbl{color:var(--danger)!important}.s-eagle{color:#185fa5!important;font-weight:700!important}
+.pbox{border:1px solid var(--border);border-radius:var(--r);padding:12px;margin-bottom:8px;background:#fafdf9}.pbox-top{display:flex;align-items:center;gap:8px;margin-bottom:8px}.pbox-av{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:500;color:#fff;flex-shrink:0}.pbox-name{font-size:13px;font-weight:500;flex:1}.pbox-mode{display:flex;gap:4px;margin-bottom:8px}.pbox-mode button{flex:1}
+.ac-wrap{position:relative}.ac-list{position:absolute;top:100%;left:0;right:0;background:var(--card);border:1px solid var(--border);border-radius:var(--rs);max-height:150px;overflow-y:auto;z-index:50;display:none}.ac-list.on{display:block}.ac-item{padding:8px 12px;font-size:12px;cursor:pointer}.ac-item:hover{background:var(--g100)}
+.sgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px}.sgrid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:10px}.sbox{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:12px;text-align:center}.sbox .sv{font-size:20px;font-weight:500;color:var(--g700)}.sbox .sl{font-size:10px;color:var(--sub);margin-top:1px}.chart-box{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:14px;margin-bottom:10px}.chart-box .ct-t{font-size:12px;font-weight:500;margin-bottom:8px;color:var(--g800)}canvas{max-height:240px}
+.det-hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}.det-back{background:none;border:none;font-size:12px;color:var(--g600);cursor:pointer;font-family:'Noto Sans KR'}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--g800);color:#fff;padding:10px 20px;border-radius:24px;font-size:12px;z-index:300;opacity:0;transition:opacity .3s;pointer-events:none}.toast.on{opacity:1}
+.ld{display:flex;align-items:center;justify-content:center;padding:40px;color:var(--sub);font-size:12px;flex-direction:column;gap:10px}.golf-ball{width:36px;height:36px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#fff 0%,#f0f0e8 40%,#ddd 100%);box-shadow:inset -3px -3px 6px rgba(0,0,0,.1),1px 2px 4px rgba(0,0,0,.15);position:relative;animation:bounce .6s ease-in-out infinite}.golf-ball::after{content:'';position:absolute;top:30%;left:25%;width:50%;height:40%;background:radial-gradient(circle,rgba(0,0,0,.06) 1px,transparent 1px);background-size:5px 5px;border-radius:50%}@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+.loading-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:250;align-items:center;justify-content:center;flex-direction:column;gap:12px}.loading-overlay.on{display:flex}.loading-overlay .golf-ball{width:48px;height:48px}.loading-overlay p{color:#fff;font-size:14px;font-weight:500}
+.empty{text-align:center;padding:40px 20px;color:var(--light)}.empty .eic{font-size:36px;margin-bottom:8px}
+@media(max-width:480px){.frow{grid-template-columns:1fr}.ct{padding:10px}}
+</style>
 </head>
-
 <body>
-  <div class="auth-wrap" id="auth">
-    <div class="auth-box">
-      <div class="auth-logo"><img src="icon-192.png" style="width:72px;height:72px;border-radius:16px;margin-bottom:8px"
-          onerror="this.style.display='none'">
-        <h1 style="font-size:18px;letter-spacing:0.5px;font-variant-numeric:lining-nums">GOLF IS 40's LIFE</h1>
-        <p>For Single Life</p>
-      </div>
-      <div id="loginF">
-        <div id="loginErr" class="auth-err hide"></div>
-        <div class="fg"><label>아이디</label><input id="lId" type="text" placeholder="아이디"></div>
-        <div class="fg"><label>비번</label><input id="lPw" type="password" placeholder="비밀번호"></div><button
-          class="auth-btn" onclick="doLogin()">홀인원</button>
-        <div class="auth-sw">계정없누? <a onclick="showReg()">회원가입</a></div>
-      </div>
-      <div id="regF" class="hide">
-        <div id="regErr" class="auth-err hide"></div>
-        <div class="fg"><label>아이디 (3자 이상)</label><input id="rId" type="text"></div>
-        <div class="fg"><label>비밀번호 (4자 이상)</label><input id="rPw" type="password"></div>
-        <div class="fg"><label>이름</label><input id="rNm" type="text" placeholder="표시 이름"></div>
-        <div class="fg"><label>멤버 연결</label><input id="rMem" type="text" placeholder="본명적어라 띄어쓰기없이"></div><button
-          class="auth-btn" onclick="doReg()">회원가입</button>
-        <div class="auth-sw">이미 계정이 있누? <a onclick="showLogin()">로그인</a></div>
-      </div>
-    </div>
-  </div>
+<div class="auth-wrap" id="auth"><div class="auth-box"><div class="auth-logo"><img src="icon-192.png" style="width:72px;height:72px;border-radius:16px;margin-bottom:8px" onerror="this.style.display='none'"><h1 style="font-size:18px;letter-spacing:0.5px;font-variant-numeric:lining-nums">GOLF IS 40's LIFE</h1><p>For Single Life</p></div>
+<div id="loginF"><div id="loginErr" class="auth-err hide"></div><div class="fg"><label>아이디</label><input id="lId" type="text" placeholder="아이디"></div><div class="fg"><label>비번</label><input id="lPw" type="password" placeholder="비밀번호"></div><button class="auth-btn" onclick="doLogin()">홀인원</button><div class="auth-sw">계정없누? <a onclick="showReg()">회원가입</a></div></div>
+<div id="regF" class="hide"><div id="regErr" class="auth-err hide"></div><div class="fg"><label>아이디 (3자 이상)</label><input id="rId" type="text"></div><div class="fg"><label>비밀번호 (4자 이상)</label><input id="rPw" type="password"></div><div class="fg"><label>이름</label><input id="rNm" type="text" placeholder="표시 이름"></div><div class="fg"><label>멤버 연결</label><input id="rMem" type="text" placeholder="본명적어라 띄어쓰기없이"></div><button class="auth-btn" onclick="doReg()">회원가입</button><div class="auth-sw">이미 계정이 있누? <a onclick="showLogin()">로그인</a></div></div></div></div>
 
-  <div class="app" id="app">
-    <div class="hdr">
-      <div class="hdr-top">
-        <div class="logo" onclick="loadData()" style="cursor:pointer"><img src="icon-192.png"
-            style="width:30px;height:30px;border-radius:6px">
-          <h1 style="font-size:14px;letter-spacing:1px;font-variant-numeric:lining-nums">Golf is 40's Life</h1>
-        </div>
-        <div class="hdr-r">
-          <div class="ubadge">
-            <div class="dot"></div><span id="uname"></span>
-          </div><button class="ibtn" onclick="doLogout()">🔓</button>
-        </div>
-      </div>
-      <div class="tabs"><button class="tab on" data-t="list" onclick="goTab('list')">📋 기록</button><button class="tab"
-          data-t="add" onclick="goTab('add')">➕ 입력</button><button class="tab" data-t="stats"
-          onclick="goTab('stats')">📊 통계</button></div>
-    </div>
-    <div class="toast" id="toast"></div>
-    <div class="loading-overlay" id="loadingOv">
-      <div class="golf-ball"></div>
-      <p id="loadingMsg">저장중...</p>
-    </div>
-    <div class="ct">
-      <!-- 기록 -->
-      <div class="page on" id="pg-list">
-        <div class="fbar"><select class="fsel" id="yrFilter"></select></div>
-        <div id="rlist"></div>
-      </div>
-      <!-- 입력 -->
-      <div class="page" id="pg-add">
-        <div class="card">
-          <div class="card-t" id="addTitle">📝 새 라운딩</div><input type="hidden" id="editRid">
-          <div class="frow" style="margin-bottom:10px">
-            <div class="fg"><label>날짜</label><input type="date" id="aDate"></div>
-            <div class="fg"><label>시간</label><input type="time" id="aTime"></div>
-          </div>
-          <div class="frow" style="margin-bottom:10px">
-            <div class="fg"><label>지역</label><input type="text" id="aArea" placeholder="포천"></div>
-            <div class="fg"><label>골프장</label>
-              <div class="ac-wrap"><input type="text" id="aCourse" placeholder="골프장 검색" oninput="onCourseInput()">
-                <div class="ac-list" id="acCourse"></div>
-              </div>
-            </div>
-          </div>
-          <div class="frow3" style="margin-bottom:10px">
-            <div class="fg"><label>필드비 (1인)</label><input type="number" id="aField" placeholder="99000"
-                oninput="calcPP()"></div>
-            <div class="fg"><label>캐디비 (총액)</label><input type="number" id="aCaddy" placeholder="150000"
-                oninput="calcPP()"></div>
-            <div class="fg"><label>카트비 (총액)</label><input type="number" id="aCart" placeholder="100000"
-                oninput="calcPP()"></div>
-          </div>
-          <div style="background:#fdf8e8;border-radius:8px;padding:10px;text-align:center;margin-bottom:4px"><span
-              style="font-size:11px;color:var(--sub)">1인당</span><span
-              style="font-size:18px;font-weight:600;color:var(--gold);margin-left:6px" id="ppDisplay">0원</span><span
-              style="font-size:11px;color:var(--sub);margin-left:4px" id="ppCount"></span></div>
-        </div>
-        <div class="card">
-          <div class="card-t" style="justify-content:space-between"><span>👥 참가자</span><button class="btn btn-s btn-sm"
-              onclick="addPlayer()">+ 추가</button></div>
-          <div id="participants"></div>
-        </div>
-        <button class="btn btn-p btn-blk" onclick="saveRound()" style="padding:14px;font-size:14px"
-          id="saveBtn">저장</button>
-      </div>
-      <!-- 통계 -->
-      <div class="page" id="pg-stats">
-        <div class="fbar"><select class="fsel" id="stYr" onchange="renderStats()"></select></div>
-        <div class="sgrid3" id="statBoxes"></div>
-        <div class="chart-box">
-          <div class="ct-t">📈 스코어 추이</div><canvas id="chTrend"></canvas>
-        </div>
-        <div class="chart-box">
-          <div class="ct-t">🎯 스코어 분포</div><canvas id="chDist"></canvas>
-        </div>
-        <div class="card" id="growthCard"></div>
-        <div class="card" id="halfCard"></div>
-        <div class="chart-box">
-          <div class="ct-t">🏌️ 골프장별 내 평균</div><canvas id="chCourse"></canvas>
-        </div>
-        <div id="vsCards"></div>
-      </div>
-      <!-- 상세 -->
-      <div class="page" id="pg-detail">
-        <div class="det-hdr"><button class="det-back" onclick="goTab('list')">← 목록</button>
-          <div style="display:flex;gap:4px"><button class="btn btn-s btn-sm" onclick="editRound()">수정</button><button
-              class="btn btn-d btn-sm" onclick="delRound()">삭제</button></div>
-        </div>
-        <div id="detContent"></div>
-      </div>
-      <!-- 홀별 수정 -->
-      <div class="page" id="pg-editsc">
-        <div class="det-hdr"><button class="det-back" onclick="showDetail(editScoreData?.score?.round_id)">←
-            돌아가기</button></div>
-        <div class="card">
-          <div class="card-t">🏌️ 내 홀별 스코어 입력</div>
-          <div id="editScCard"></div><button class="btn btn-p btn-blk" style="margin-top:12px"
-            onclick="saveMyScore()">저장</button>
-        </div>
-      </div>
-    </div>
-  </div>
-  <script>
-    const API = 'https://script.google.com/macros/s/AKfycbzLf7tVQXbVarhGxCtjDO1KPiErk1-Z5cE_nCaozKUrF0A3daD9iM_ReDTKRD4-FHKD/exec';
-    let USER = null, D = { rounds: [], scores: [], players: [], courses: [] }, CH = {};
-    let curYear = '전체', curDetail = null, editScoreData = null, formPlayers = [];
-    const COL = ['#2d8a5e', '#c9a84c', '#4a90d9', '#d44040', '#8b5cf6', '#f59e0b', '#ec4899', '#14b8a6'];
+<div class="app" id="app">
+<div class="hdr"><div class="hdr-top"><div class="logo" onclick="loadData()" style="cursor:pointer"><img src="icon-192.png" style="width:30px;height:30px;border-radius:6px"><h1 style="font-size:14px;letter-spacing:1px;font-variant-numeric:lining-nums">1 Hall Awalys Par</h1></div><div class="hdr-r"><div class="ubadge"><div class="dot"></div><span id="uname"></span></div><button class="ibtn" onclick="doLogout()">🔓</button></div></div>
+<div class="tabs"><button class="tab on" data-t="list" onclick="goTab('list')">📋 기록</button><button class="tab" data-t="add" onclick="goTab('add')">➕ 입력</button><button class="tab" data-t="stats" onclick="goTab('stats')">📊 통계</button></div></div>
+<div class="toast" id="toast"></div>
+<div class="loading-overlay" id="loadingOv"><div class="golf-ball"></div><p id="loadingMsg">저장중...</p></div>
+<div class="ct">
+<div class="page on" id="pg-list"><div class="fbar"><select class="fsel" id="yrFilter"></select></div><div id="rlist"></div></div>
+<div class="page" id="pg-add"><div class="card"><div class="card-t" id="addTitle">📝 새 라운딩</div><input type="hidden" id="editRid">
+<div class="frow" style="margin-bottom:10px"><div class="fg"><label>날짜</label><input type="date" id="aDate"></div><div class="fg"><label>시간</label><input type="time" id="aTime"></div></div>
+<div class="frow" style="margin-bottom:10px"><div class="fg"><label>지역</label><input type="text" id="aArea" placeholder="포천"></div><div class="fg"><label>골프장</label><div class="ac-wrap"><input type="text" id="aCourse" placeholder="골프장 검색" oninput="onCourseInput()"><div class="ac-list" id="acCourse"></div></div></div></div>
+<div class="frow3" style="margin-bottom:10px"><div class="fg"><label>필드비 (1인)</label><input type="number" id="aField" placeholder="99000" oninput="calcPP()"></div><div class="fg"><label>캐디비 (총액)</label><input type="number" id="aCaddy" placeholder="150000" oninput="calcPP()"></div><div class="fg"><label>카트비 (총액)</label><input type="number" id="aCart" placeholder="100000" oninput="calcPP()"></div></div>
+<div style="background:#fdf8e8;border-radius:8px;padding:10px;text-align:center;margin-bottom:4px"><span style="font-size:11px;color:var(--sub)">1인당</span><span style="font-size:18px;font-weight:600;color:var(--gold);margin-left:6px" id="ppDisplay">0원</span><span style="font-size:11px;color:var(--sub);margin-left:4px" id="ppCount"></span></div>
+</div>
+<div class="card"><div class="card-t" style="justify-content:space-between"><span>👥 참가자</span><button class="btn btn-s btn-sm" onclick="addPlayer()">+ 추가</button></div>
+<div id="participants"></div></div>
+<button class="btn btn-p btn-blk" onclick="saveRound()" style="padding:14px;font-size:14px" id="saveBtn">저장</button></div>
+<!-- 통계 --><div class="page" id="pg-stats">
+<div class="fbar"><select class="fsel" id="stYr" onchange="renderStats()"></select></div>
+<div class="sgrid3" id="statBoxes"></div>
+<div class="chart-box"><div class="ct-t">📈 스코어 추이</div><canvas id="chTrend"></canvas></div>
+<div class="chart-box"><div class="ct-t">🎯 스코어 분포</div><canvas id="chDist"></canvas></div>
+<div class="card" id="growthCard"></div>
+<div class="card" id="halfCard"></div>
+<div class="chart-box"><div class="ct-t">🏌️ 골프장별 내 평균</div><div id="courseChartWrap"><canvas id="chCourse"></canvas></div></div>
+<div id="vsCards"></div>
+</div>
+<div class="page" id="pg-detail"><div class="det-hdr"><button class="det-back" onclick="goTab('list')">← 목록</button><div style="display:flex;gap:4px"><button class="btn btn-s btn-sm" onclick="editRound()">수정</button><button class="btn btn-d btn-sm" onclick="delRound()">삭제</button></div></div><div id="detContent"></div></div>
+<div class="page" id="pg-editsc"><div class="det-hdr"><button class="det-back" onclick="showDetail(editScoreData?.score?.round_id)">← 돌아가기</button></div><div class="card"><div class="card-t">🏌️ 내 홀별 스코어 입력</div><div id="editScCard"></div><button class="btn btn-p btn-blk" style="margin-top:12px" onclick="saveMyScore()">저장</button></div></div>
+</div></div>
+<script>
+const API='https://script.google.com/macros/s/AKfycbzLf7tVQXbVarhGxCtjDO1KPiErk1-Z5cE_nCaozKUrF0A3daD9iM_ReDTKRD4-FHKD/exec';
+let USER=null,D={rounds:[],scores:[],players:[],courses:[]},CH={};
+let curYear='전체',curDetail=null,editScoreData=null,formPlayers=[];
+const COL=['#2d8a5e','#c9a84c','#4a90d9','#d44040','#8b5cf6','#f59e0b','#ec4899','#14b8a6'];
 
-    // JSONP
-    let _jid = 0;
-    function api(d) { return new Promise((ok, no) => { const id = '_j' + (_jid++); const tm = setTimeout(() => { delete window[id]; s.remove(); no(new Error('timeout')) }, 30000); window[id] = r => { clearTimeout(tm); delete window[id]; s.remove(); ok(r) }; const q = new URLSearchParams(); q.set('callback', id); q.set('t', Date.now()); if (d) q.set('data', encodeURIComponent(JSON.stringify(d))); const s = document.createElement('script'); s.src = API + '?' + q; s.onerror = () => { clearTimeout(tm); delete window[id]; s.remove(); no(new Error('net')) }; document.body.appendChild(s) }) }
+let _jid=0;
+function api(d){return new Promise((ok,no)=>{const id='_j'+(_jid++);const tm=setTimeout(()=>{delete window[id];s.remove();no(new Error('timeout'))},30000);window[id]=r=>{clearTimeout(tm);delete window[id];s.remove();ok(r)};const q=new URLSearchParams();q.set('callback',id);q.set('t',Date.now());if(d)q.set('data',encodeURIComponent(JSON.stringify(d)));const s=document.createElement('script');s.src=API+'?'+q;s.onerror=()=>{clearTimeout(tm);delete window[id];s.remove();no(new Error('net'))};document.body.appendChild(s)})}
 
-    // Storage
-    function loadSt() { try { const u = localStorage.getItem('gu3'); if (u) USER = JSON.parse(u) } catch (e) { } }
-    function saveSt() { if (USER) localStorage.setItem('gu3', JSON.stringify(USER)); else localStorage.removeItem('gu3') }
+function loadSt(){try{const u=localStorage.getItem('gu3');if(u)USER=JSON.parse(u)}catch(e){}}
+function saveSt(){if(USER)localStorage.setItem('gu3',JSON.stringify(USER));else localStorage.removeItem('gu3')}
 
-    // Auth
-    function showLogin() { $('loginF').classList.remove('hide'); $('regF').classList.add('hide'); $('loginErr').classList.add('hide') }
-    function showReg() { $('loginF').classList.add('hide'); $('regF').classList.remove('hide'); $('regErr').classList.add('hide') }
-    async function doLogin() { const id = $('lId').value.trim(), pw = $('lPw').value; if (!id || !pw) return shErr('loginErr', '아이디와 비밀번호를 입력하세요'); showL('로그인 중...'); try { const r = await api({ action: 'login', userId: id, password: pw }); hideL(); if (r.status === 'ok') { USER = r.user; saveSt(); enter() } else shErr('loginErr', r.message) } catch (e) { hideL(); shErr('loginErr', '서버 연결 실패') } }
-    async function doReg() { const id = $('rId').value.trim(), pw = $('rPw').value, nm = $('rNm').value.trim(), mem = $('rMem').value.trim(); if (!id || !pw || !nm) return shErr('regErr', '모든 항목을 입력하세요'); showL('가입 중...'); try { const r = await api({ action: 'register', userId: id, password: pw, userName: nm, memberName: mem }); hideL(); if (r.status === 'ok') { USER = r.user; saveSt(); enter(); toast('가입 완료!') } else shErr('regErr', r.message) } catch (e) { hideL(); shErr('regErr', '서버 연결 실패') } }
-    function doLogout() { if (!confirm('로그아웃?')) return; USER = null; saveSt(); $('app').classList.remove('on'); $('auth').style.display = 'flex'; showLogin() }
-    function shErr(id, m) { $(id).textContent = m; $(id).classList.remove('hide') }
-    function enter() { $('auth').style.display = 'none'; $('app').classList.add('on'); $('uname').textContent = USER.userName; initForm(); loadData() }
+function showLogin(){$('loginF').classList.remove('hide');$('regF').classList.add('hide');$('loginErr').classList.add('hide')}
+function showReg(){$('loginF').classList.add('hide');$('regF').classList.remove('hide');$('regErr').classList.add('hide')}
+async function doLogin(){const id=$('lId').value.trim(),pw=$('lPw').value;if(!id||!pw)return shErr('loginErr','아이디와 비밀번호를 입력하세요');showL('로그인 중...');try{const r=await api({action:'login',userId:id,password:pw});hideL();if(r.status==='ok'){USER=r.user;saveSt();enter()}else shErr('loginErr',r.message)}catch(e){hideL();shErr('loginErr','서버 연결 실패')}}
+async function doReg(){const id=$('rId').value.trim(),pw=$('rPw').value,nm=$('rNm').value.trim(),mem=$('rMem').value.trim();if(!id||!pw||!nm)return shErr('regErr','모든 항목을 입력하세요');showL('가입 중...');try{const r=await api({action:'register',userId:id,password:pw,userName:nm,memberName:mem});hideL();if(r.status==='ok'){USER=r.user;saveSt();enter();toast('가입 완료!')}else shErr('regErr',r.message)}catch(e){hideL();shErr('regErr','서버 연결 실패')}}
+function doLogout(){if(!confirm('로그아웃?'))return;USER=null;saveSt();$('app').classList.remove('on');$('auth').style.display='flex';showLogin()}
+function shErr(id,m){$(id).textContent=m;$(id).classList.remove('hide')}
+function enter(){$('auth').style.display='none';$('app').classList.add('on');$('uname').textContent=USER.userName;initForm();loadData()}
 
-    // Data
-    async function loadData() { $('rlist').innerHTML = '<div class="ld"><div class="golf-ball"></div>불러오는 중...</div>'; try { const j = await api(); if (j.status === 'ok') { D = j; D.rounds = j.rounds || []; D.scores = j.scores || []; D.players = j.players || []; D.courses = j.courses || []; console.log('📦', D.rounds.length, 'rounds', D.scores.length, 'scores'); renderList() } } catch (e) { $('rlist').innerHTML = '<div class="empty"><div class="eic">⚠️</div>데이터 로드 실패</div>' } }
+async function loadData(){$('rlist').innerHTML='<div class="ld"><div class="golf-ball"></div>불러오는 중...</div>';try{const j=await api();if(j.status==='ok'){D=j;D.rounds=j.rounds||[];D.scores=j.scores||[];D.players=j.players||[];D.courses=j.courses||[];renderList()}}catch(e){$('rlist').innerHTML='<div class="empty"><div class="eic">⚠️</div>데이터 로드 실패</div>'}}
 
-    // Helpers
-    function $(id) { return document.getElementById(id) }
-    function mn() { return USER?.memberName || '' }
-    function gs(rid) { return D.scores.filter(s => s.round_id === rid) }
-    function myR() { const m = mn(); if (!m) return D.rounds; return D.rounds.filter(r => gs(r.round_id).some(s => s.이름 === m)) }
-    function fd(d) { if (!d) return '-'; const m = String(d).match(/(\d{4})-(\d{2})-(\d{2})/); if (!m) return String(d); const dt = new Date(m[1], m[2] - 1, m[3]); return `${parseInt(m[2])}/${parseInt(m[3])}(${'일월화수목금토'[dt.getDay()]})` }
-    function ft(t) { if (!t) return ''; const s = String(t); if (s.includes(':')) return s.substring(0, 5); return s }
-    function pp(r) { const n = gs(r.round_id).length || 1, f = Number(r.필드비 || 0), c = Number(r.캐디비 || 0), k = Number(r.카트비 || 0); return Math.round(f + (c + k) / n) }
-    function scC(t) { return t <= 90 ? 'sc-good' : t >= 110 ? 'sc-bad' : 'sc-ok' }
-    function hC(v) { v = Number(v); return v <= -2 ? 's-eagle' : v === -1 ? 's-birdie' : v === 0 ? 's-par' : v === 1 ? 's-bogey' : 's-dbl' }
-    function showL(m) { $('loadingMsg').textContent = m || '저장중...'; $('loadingOv').classList.add('on') }
-    function hideL() { $('loadingOv').classList.remove('on') }
-    function toast(m) { const t = $('toast'); t.textContent = m; t.classList.add('on'); setTimeout(() => t.classList.remove('on'), 2500) }
-    function goTab(t) { document.querySelectorAll('.page').forEach(p => p.classList.remove('on')); document.querySelectorAll('.tab').forEach(b => b.classList.remove('on')); const tb = document.querySelector(`.tab[data-t="${t}"]`); if (tb) tb.classList.add('on'); $('pg-' + t).classList.add('on'); if (t === 'stats') renderStats(); if (t === 'list') renderList(); if (t === 'add' && !$('editRid').value) initForm() }
+function $(id){return document.getElementById(id)}
+function mn(){return USER?.memberName||''}
+function gs(rid){return D.scores.filter(s=>s.round_id===rid)}
+function myR(){const m=mn();if(!m)return D.rounds;return D.rounds.filter(r=>gs(r.round_id).some(s=>s.이름===m))}
+function fd(d){if(!d)return'-';const m=String(d).match(/(\d{4})-(\d{2})-(\d{2})/);if(!m)return String(d);const dt=new Date(m[1],m[2]-1,m[3]);return`${parseInt(m[2])}/${parseInt(m[3])}(${'일월화수목금토'[dt.getDay()]})`}
+function ft(t){if(!t)return'';const s=String(t);if(s.includes(':'))return s.substring(0,5);return s}
+function pp(r){const n=gs(r.round_id).length||1,f=Number(r.필드비||0),c=Number(r.캐디비||0),k=Number(r.카트비||0);return Math.round(f+(c+k)/n)}
+function scC(t){return t<=90?'sc-good':t>=110?'sc-bad':'sc-ok'}
+function hC(v){v=Number(v);return v<=-2?'s-eagle':v===-1?'s-birdie':v===0?'s-par':v===1?'s-bogey':'s-dbl'}
+function showL(m){$('loadingMsg').textContent=m||'저장중...';$('loadingOv').classList.add('on')}
+function hideL(){$('loadingOv').classList.remove('on')}
+function toast(m){const t=$('toast');t.textContent=m;t.classList.add('on');setTimeout(()=>t.classList.remove('on'),2500)}
+function goTab(t){document.querySelectorAll('.page').forEach(p=>p.classList.remove('on'));document.querySelectorAll('.tab').forEach(b=>b.classList.remove('on'));const tb=document.querySelector(`.tab[data-t="${t}"]`);if(tb)tb.classList.add('on');$('pg-'+t).classList.add('on');if(t==='stats')renderStats();if(t==='list')renderList();if(t==='add'&&!$('editRid').value)initForm()}
 
-    // ===== LIST =====
-    function renderList() {
-      const rounds = myR();
-      const years = ['전체', ...new Set(rounds.map(r => String(r.날짜 || '').substring(0, 4)).filter(Boolean))].sort((a, b) => a === '전체' ? -1 : b === '전체' ? 1 : b.localeCompare(a));
-      if (!curYear) curYear = '전체';
-      const sel = $('yrFilter'); sel.innerHTML = years.map(y => `<option value="${y}"${y === curYear ? ' selected' : ''}>${y === '전체' ? '전체' : y + '년'}</option>`).join('');
-      curYear = sel.value;
-      let list = rounds; if (curYear !== '전체') list = rounds.filter(r => String(r.날짜 || '').startsWith(curYear));
-      if (!list.length) { $('rlist').innerHTML = '<div class="empty"><div class="eic">🏌️</div>라운딩 기록이 없습니다</div>'; return }
-      list.sort((a, b) => (b.날짜 || '').localeCompare(a.날짜 || '')); const m = mn();
-      $('rlist').innerHTML = list.map(r => {
-        const sc = gs(r.round_id); const totals = sc.map(s => Number(s.total)).filter(t => t > 0); const best = Math.min(...totals);
-        const chips = sc.map(s => { const t = Number(s.total); if (!t) return ''; const crown = t === best && totals.length > 1 ? ' sc-crown' : ''; return `<span class="sc ${scC(t)}${m && s.이름 === m ? ' sc-me' : ''}${crown}"><span class="n">${s.이름}</span><span class="v">${t}</span></span>` }).join('');
-        return `<div class="rc" onclick='showDetail("${r.round_id}")'><div class="rc-top"><span class="rc-date">${fd(r.날짜)} ${ft(r.시간)}</span><span class="rc-cost">${pp(r).toLocaleString()}원/인</span></div><div class="rc-course">${r.골프장 || '-'}</div><div class="rc-loc">📍 ${r.지역 || '-'}</div>${chips ? `<div class="rc-scores">${chips}</div>` : ''}</div>`
-      }).join('');
-    }
-    $('yrFilter').onchange = function () { curYear = this.value; renderList() };
+function renderList(){
+  const rounds=myR();
+  const years=['전체',...new Set(rounds.map(r=>String(r.날짜||'').substring(0,4)).filter(Boolean))].sort((a,b)=>a==='전체'?-1:b==='전체'?1:b.localeCompare(a));
+  if(!curYear)curYear='전체';
+  const sel=$('yrFilter');sel.innerHTML=years.map(y=>`<option value="${y}"${y===curYear?' selected':''}>${y==='전체'?'전체':y+'년'}</option>`).join('');
+  curYear=sel.value;
+  let list=rounds;if(curYear!=='전체')list=rounds.filter(r=>String(r.날짜||'').startsWith(curYear));
+  if(!list.length){$('rlist').innerHTML='<div class="empty"><div class="eic">🏌️</div>라운딩 기록이 없습니다</div>';return}
+  list.sort((a,b)=>(b.날짜||'').localeCompare(a.날짜||''));const m=mn();
+  $('rlist').innerHTML=list.map(r=>{const sc=gs(r.round_id);const totals=sc.map(s=>Number(s.total)).filter(t=>t>0);const best=Math.min(...totals);
+    const chips=sc.map(s=>{const t=Number(s.total);if(!t)return'';const crown=t===best&&totals.length>1?' sc-crown':'';return`<span class="sc ${scC(t)}${m&&s.이름===m?' sc-me':''}${crown}"><span class="n">${s.이름}</span><span class="v">${t}</span></span>`}).join('');
+    const ppr=pp(r);return`<div class="rc" onclick='showDetail("${r.round_id}")'><div class="rc-top"><span class="rc-date">${fd(r.날짜)} ${ft(r.시간)}</span>${ppr?`<span class="rc-cost">${ppr.toLocaleString()}원/인</span>`:''}</div><div class="rc-course">${r.골프장||'-'}</div><div class="rc-loc">📍 ${r.지역||'-'}</div>${chips?`<div class="rc-scores">${chips}</div>`:''}</div>`}).join('');
+}
+$('yrFilter').onchange=function(){curYear=this.value;renderList()};
 
-    // ===== DETAIL =====
-    function showDetail(rid) {
-      curDetail = D.rounds.find(r => r.round_id === rid); if (!curDetail) return;
-      const sc = gs(rid), m = mn(), n = sc.length || 1, ppc = pp(curDetail);
-      const f = Number(curDetail.필드비 || 0), c = Number(curDetail.캐디비 || 0), k = Number(curDetail.카트비 || 0);
-      let h = `<div class="card"><div style="font-size:16px;font-weight:600;margin-bottom:3px">${curDetail.골프장 || '-'}</div>
-    <div style="font-size:11px;color:var(--sub);margin-bottom:12px">📍 ${curDetail.지역 || '-'} · ${fd(curDetail.날짜)} ${ft(curDetail.시간)} · ${n}명</div>
+function showDetail(rid){
+  curDetail=D.rounds.find(r=>r.round_id===rid);if(!curDetail)return;
+  const sc=gs(rid),m=mn(),n=sc.length||1,ppc=pp(curDetail);
+  const f=Number(curDetail.필드비||0),c=Number(curDetail.캐디비||0),k=Number(curDetail.카트비||0);
+  let h=`<div class="card"><div style="font-size:16px;font-weight:600;margin-bottom:3px">${curDetail.골프장||'-'}</div>
+    <div style="font-size:11px;color:var(--sub);margin-bottom:12px">📍 ${curDetail.지역||'-'} · ${fd(curDetail.날짜)} ${ft(curDetail.시간)} · ${n}명</div>
     <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:10px">
       <div style="text-align:center"><div style="font-size:10px;color:var(--sub)">필드비(1인)</div><div style="font-size:13px;font-weight:500">${f.toLocaleString()}</div></div>
       <div style="text-align:center"><div style="font-size:10px;color:var(--sub)">캐디비(총)</div><div style="font-size:13px;font-weight:500">${c.toLocaleString()}</div></div>
       <div style="text-align:center"><div style="font-size:10px;color:var(--sub)">카트비(총)</div><div style="font-size:13px;font-weight:500">${k.toLocaleString()}</div></div></div>
     <div style="background:#fdf8e8;border-radius:8px;padding:10px;text-align:center"><span style="font-size:11px;color:var(--sub)">1인당</span><span style="font-size:18px;font-weight:600;color:var(--gold);margin-left:6px">${ppc.toLocaleString()}원</span></div></div>`;
-      const totals2 = sc.map(s => Number(s.total)).filter(t => t > 0); const best2 = Math.min(...totals2);
-      sc.forEach(s => {
-        const t = Number(s.total) || 0; const hh = Array.from({ length: 18 }, (_, i) => s['h' + (i + 1)]).some(v => v !== '' && v !== 0 && v !== undefined && v !== null); const me = m && s.이름 === m; const isBest = t === best2 && t > 0 && totals2.length > 1;
-        const tColor = t <= 90 ? 'var(--g600)' : t >= 110 ? 'var(--danger)' : 'var(--text)';
-        h += `<div class="card" style="${me ? 'border-color:var(--gold)' : ''}"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:${hh ? '8' : '0'}px"><span style="font-weight:500;font-size:13px">${isBest ? '👑 ' : ''}${s.이름}${me ? ' ⭐' : ''}</span><div style="display:flex;align-items:center;gap:8px"><span style="font-size:18px;font-weight:600;color:${tColor}">${t || '-'}</span>${me && !hh ? `<button class="btn btn-s btn-sm" onclick="editMyScore('${s.round_id}')">홀별 입력</button>` : ''}</div></div>`;
-        if (hh) h += buildSV(s); h += '</div>'
-      });
-      $('detContent').innerHTML = h; goTab('detail');
-    }
+  const totals2=sc.map(s=>Number(s.total)).filter(t=>t>0);const best2=Math.min(...totals2);
+  sc.forEach(s=>{const t=Number(s.total)||0;const hh=Array.from({length:18},(_,i)=>s['h'+(i+1)]).some(v=>v!==''&&v!==0&&v!==undefined&&v!==null);const me=m&&s.이름===m;const isBest=t===best2&&t>0&&totals2.length>1;
+    const tColor=t<=90?'var(--g600)':t>=110?'var(--danger)':'var(--text)';
+    h+=`<div class="card" style="${me?'border-color:var(--gold)':''}"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:${hh?'8':'0'}px"><span style="font-weight:500;font-size:13px">${isBest?'👑 ':''}${s.이름}${me?' ⭐':''}</span><div style="display:flex;align-items:center;gap:8px"><span style="font-size:18px;font-weight:600;color:${tColor}">${t||'-'}</span>${me&&!hh?`<button class="btn btn-s btn-sm" onclick="editMyScore('${s.round_id}')">홀별 입력</button>`:''}</div></div>`;
+    if(hh)h+=buildSV(s);h+='</div>'});
+  $('detContent').innerHTML=h;goTab('detail');
+}
 
-    function buildSV(s) {
-      let h = '<div class="scard"><table><tr><th class="label-col">Hole</th>'; for (let i = 1; i <= 9; i++)h += `<th>${i}</th>`; h += '<th>OUT</th></tr><tr><td class="label-col">+/-</td>';
-      let o = 0; for (let i = 1; i <= 9; i++) { const v = s['h' + i], n = Number(v); if (v !== '' && v !== undefined && v !== null) { o += n; h += `<td class="${hC(n)}">${n > 0 ? '+' + n : n}</td>` } else h += '<td>-</td>' }
-      h += `<td class="subtotal">${o > 0 ? '+' + o : o}</td></tr><tr><th class="label-col">Hole</th>`; for (let i = 10; i <= 18; i++)h += `<th>${i}</th>`; h += '<th>IN</th></tr><tr><td class="label-col">+/-</td>';
-      let i2 = 0; for (let i = 10; i <= 18; i++) { const v = s['h' + i], n = Number(v); if (v !== '' && v !== undefined && v !== null) { i2 += n; h += `<td class="${hC(n)}">${n > 0 ? '+' + n : n}</td>` } else h += '<td>-</td>' }
-      h += `<td class="subtotal">${i2 > 0 ? '+' + i2 : i2}</td></tr>`; const t = o + i2; h += `<tr><td class="label-col" colspan="10" style="text-align:right;font-weight:600">합계: ${t > 0 ? '+' + t : t}</td></tr></table></div>`; return h
-    }
+function buildSV(s){let h='<div class="scard"><table><tr><th class="label-col">Hole</th>';for(let i=1;i<=9;i++)h+=`<th>${i}</th>`;h+='<th>OUT</th></tr><tr><td class="label-col">+/-</td>';
+  let o=0;for(let i=1;i<=9;i++){const v=s['h'+i],n=Number(v);if(v!==''&&v!==undefined&&v!==null){o+=n;h+=`<td class="${hC(n)}">${n>0?'+'+n:n}</td>`}else h+='<td>-</td>'}
+  h+=`<td class="subtotal">${o>0?'+'+o:o}</td></tr><tr><th class="label-col">Hole</th>`;for(let i=10;i<=18;i++)h+=`<th>${i}</th>`;h+='<th>IN</th></tr><tr><td class="label-col">+/-</td>';
+  let i2=0;for(let i=10;i<=18;i++){const v=s['h'+i],n=Number(v);if(v!==''&&v!==undefined&&v!==null){i2+=n;h+=`<td class="${hC(n)}">${n>0?'+'+n:n}</td>`}else h+='<td>-</td>'}
+  h+=`<td class="subtotal">${i2>0?'+'+i2:i2}</td></tr>`;const t=o+i2;h+=`<tr><td class="label-col" colspan="10" style="text-align:right;font-weight:600">합계: ${t>0?'+'+t:t}</td></tr></table></div>`;return h}
 
-    // ===== EDIT ROUND =====
-    function editRound() {
-      if (!curDetail) return; const r = curDetail, sc = gs(r.round_id);
-      $('editRid').value = r.round_id; $('addTitle').textContent = '✏️ 라운딩 수정'; $('saveBtn').textContent = '수정 저장';
-      $('aDate').value = r.날짜 || ''; $('aTime').value = ft(r.시간) || ''; $('aArea').value = r.지역 || ''; $('aCourse').value = r.골프장 || '';
-      $('aField').value = r.필드비 || ''; $('aCaddy').value = r.캐디비 || ''; $('aCart').value = r.카트비 || '';
-      formPlayers = sc.map(s => {
-        const holes = []; for (let i = 0; i < 18; i++) { const v = s['h' + (i + 1)]; holes.push(v !== '' && v !== undefined && v !== null ? Number(v) : '') }
-        const hasH = holes.some(v => v !== ''); return { name: s.이름, mode: hasH ? 'holes' : 'total', holes, total: Number(s.total) || '' }
-      });
-      renderParticipants(); calcPP(); goTab('add');
-    }
+function editRound(){
+  if(!curDetail)return;const r=curDetail,sc=gs(r.round_id);
+  $('editRid').value=r.round_id;$('addTitle').textContent='✏️ 라운딩 수정';$('saveBtn').textContent='수정 저장';
+  $('aDate').value=r.날짜||'';$('aTime').value=ft(r.시간)||'';$('aArea').value=r.지역||'';$('aCourse').value=r.골프장||'';
+  $('aField').value=r.필드비||'';$('aCaddy').value=r.캐디비||'';$('aCart').value=r.카트비||'';
+  formPlayers=sc.map(s=>{const holes=[];for(let i=0;i<18;i++){const v=s['h'+(i+1)];holes.push(v!==''&&v!==undefined&&v!==null?Number(v):'')}
+    const hasH=holes.some(v=>v!=='');return{name:s.이름,mode:hasH?'holes':'total',holes,total:Number(s.total)||''}});
+  renderParticipants();calcPP();goTab('add');
+}
 
-    async function delRound() { if (!curDetail || !confirm('삭제하시겠습니까?')) return; showL('삭제중...'); try { const r = await api({ action: 'deleteRound', roundId: curDetail.round_id }); hideL(); if (r.status === 'ok') { toast('삭제 완료'); await loadData(); goTab('list') } else toast(r.message) } catch (e) { hideL(); toast('삭제 실패') } }
+async function delRound(){if(!curDetail||!confirm('삭제하시겠습니까?'))return;showL('삭제중...');try{const r=await api({action:'deleteRound',roundId:curDetail.round_id});hideL();if(r.status==='ok'){toast('삭제 완료');await loadData();goTab('list')}else toast(r.message)}catch(e){hideL();toast('삭제 실패')}}
 
-    // ===== SCORE EDIT =====
-    function editMyScore(rid) {
-      const round = D.rounds.find(r => r.round_id === rid), sc = D.scores.find(s => s.round_id === rid && s.이름 === mn()); if (!round || !sc) return; editScoreData = { round, score: sc };
-      let h = `<div class="fg" style="margin-bottom:10px"><label>토탈</label><input type="number" id="esT" value="${sc.total || ''}" placeholder="자동(par72)" style="text-align:center;font-size:16px;font-weight:600;max-width:120px"></div><div class="scard"><table>`;
-      h += '<tr><th class="label-col">H</th>'; for (let i = 1; i <= 9; i++)h += `<th>${i}</th>`; h += '<th>OUT</th></tr><tr><td class="label-col">+/-</td>';
-      for (let i = 1; i <= 9; i++) { const v = sc['h' + i]; h += `<td class="score-cell"><input type="number" id="es${i}" value="${v !== '' && v !== undefined && v !== null ? v : ''}" onchange="calcET()" style="width:28px"></td>` }
-      h += '<td class="subtotal" id="esOT">-</td></tr><tr><th class="label-col">H</th>'; for (let i = 10; i <= 18; i++)h += `<th>${i}</th>`; h += '<th>IN</th></tr><tr><td class="label-col">+/-</td>';
-      for (let i = 10; i <= 18; i++) { const v = sc['h' + i]; h += `<td class="score-cell"><input type="number" id="es${i}" value="${v !== '' && v !== undefined && v !== null ? v : ''}" onchange="calcET()" style="width:28px"></td>` }
-      h += '<td class="subtotal" id="esIT">-</td></tr><tr><td class="label-col" colspan="10" style="text-align:right"><strong>합계: <span id="esS">-</span></strong></td></tr></table></div>';
-      $('editScCard').innerHTML = h; calcET(); goTab('editsc');
-    }
-    function calcET() { let o = 0, i2 = 0, f = 0; for (let i = 1; i <= 9; i++) { const v = $('es' + i)?.value; if (v !== '') { o += Number(v); f++ } } for (let i = 10; i <= 18; i++) { const v = $('es' + i)?.value; if (v !== '') { i2 += Number(v); f++ } } $('esOT').textContent = o > 0 ? '+' + o : o; $('esIT').textContent = i2 > 0 ? '+' + i2 : i2; const t = o + i2; $('esS').textContent = t > 0 ? '+' + t : t; if (f > 0) $('esT').value = 72 + t }
-    async function saveMyScore() { if (!editScoreData) return; const h = []; let to = 0; for (let i = 1; i <= 18; i++) { const v = $('es' + i)?.value; h.push(v !== '' ? Number(v) : ''); if (v !== '') to += Number(v) } showL('스코어 저장중...'); try { const r = await api({ action: 'updateScore', round_id: editScoreData.score.round_id, 이름: mn(), holes: h, total: Number($('esT')?.value) || 0, _row: editScoreData.score._row }); hideL(); if (r.status === 'ok') { toast('저장 완료'); await loadData(); showDetail(editScoreData.score.round_id) } else toast(r.message) } catch (e) { hideL(); toast('저장 실패') } }
+function editMyScore(rid){
+  const round=D.rounds.find(r=>r.round_id===rid),sc=D.scores.find(s=>s.round_id===rid&&s.이름===mn());if(!round||!sc)return;editScoreData={round,score:sc};
+  let h=`<div class="fg" style="margin-bottom:10px"><label>토탈</label><input type="number" id="esT" value="${sc.total||''}" placeholder="자동(par72)" style="text-align:center;font-size:16px;font-weight:600;max-width:120px"></div><div class="scard"><table>`;
+  h+='<tr><th class="label-col">H</th>';for(let i=1;i<=9;i++)h+=`<th>${i}</th>`;h+='<th>OUT</th></tr><tr><td class="label-col">+/-</td>';
+  for(let i=1;i<=9;i++){const v=sc['h'+i];h+=`<td class="score-cell"><input type="number" id="es${i}" value="${v!==''&&v!==undefined&&v!==null?v:''}" onchange="calcET()" style="width:28px"></td>`}
+  h+='<td class="subtotal" id="esOT">-</td></tr><tr><th class="label-col">H</th>';for(let i=10;i<=18;i++)h+=`<th>${i}</th>`;h+='<th>IN</th></tr><tr><td class="label-col">+/-</td>';
+  for(let i=10;i<=18;i++){const v=sc['h'+i];h+=`<td class="score-cell"><input type="number" id="es${i}" value="${v!==''&&v!==undefined&&v!==null?v:''}" onchange="calcET()" style="width:28px"></td>`}
+  h+='<td class="subtotal" id="esIT">-</td></tr><tr><td class="label-col" colspan="10" style="text-align:right"><strong>합계: <span id="esS">-</span></strong></td></tr></table></div>';
+  $('editScCard').innerHTML=h;calcET();goTab('editsc');
+}
+function calcET(){let o=0,i2=0,f=0;for(let i=1;i<=9;i++){const v=$('es'+i)?.value;if(v!==''){o+=Number(v);f++}}for(let i=10;i<=18;i++){const v=$('es'+i)?.value;if(v!==''){i2+=Number(v);f++}}$('esOT').textContent=o>0?'+'+o:o;$('esIT').textContent=i2>0?'+'+i2:i2;const t=o+i2;$('esS').textContent=t>0?'+'+t:t;if(f>0)$('esT').value=72+t}
+async function saveMyScore(){if(!editScoreData)return;const h=[];let to=0;for(let i=1;i<=18;i++){const v=$('es'+i)?.value;h.push(v!==''?Number(v):'');if(v!=='')to+=Number(v)}showL('스코어 저장중...');try{const r=await api({action:'updateScore',round_id:editScoreData.score.round_id,이름:mn(),holes:h,total:Number($('esT')?.value)||0,_row:editScoreData.score._row});hideL();if(r.status==='ok'){toast('저장 완료');await loadData();showDetail(editScoreData.score.round_id)}else toast(r.message)}catch(e){hideL();toast('저장 실패')}}
 
-    // ===== ADD FORM =====
-    function initForm() { formPlayers = []; $('aDate').value = new Date().toISOString().split('T')[0];['aTime', 'aArea', 'aCourse', 'aField', 'aCaddy', 'aCart'].forEach(id => $(id).value = ''); $('editRid').value = ''; $('addTitle').textContent = '📝 새 라운딩'; $('saveBtn').textContent = '저장'; if (mn()) formPlayers.push({ name: mn(), mode: 'holes', holes: Array(18).fill(''), total: '' }); renderParticipants(); calcPP() }
-    function calcPP() { const f = Number($('aField').value) || 0, c = Number($('aCaddy').value) || 0, k = Number($('aCart').value) || 0, n = Math.max(formPlayers.filter(p => p.name.trim()).length, 1); const v = Math.round(f + (c + k) / n); $('ppDisplay').textContent = v.toLocaleString() + '원'; $('ppCount').textContent = '(' + n + '명)' }
-    function onCourseInput() { const v = $('aCourse').value.trim().toLowerCase(); if (!v) { $('acCourse').classList.remove('on'); return } const m = D.courses.filter(c => (c.골프장 || '').toLowerCase().includes(v) || (c.지역 || '').toLowerCase().includes(v)); if (!m.length) { $('acCourse').classList.remove('on'); return } $('acCourse').innerHTML = m.map(c => `<div class="ac-item" onclick="$('aCourse').value='${c.골프장}';$('aArea').value='${c.지역}';$('acCourse').classList.remove('on')">${c.골프장} <span style="color:var(--light);font-size:10px">${c.지역}</span></div>`).join(''); $('acCourse').classList.add('on') }
-    function addPlayer() { formPlayers.push({ name: '', mode: 'total', holes: Array(18).fill(''), total: '' }); renderParticipants(); calcPP() }
-    function removePlayer(i) { formPlayers.splice(i, 1); renderParticipants(); calcPP() }
-    function toggleMode(i) { formPlayers[i].mode = formPlayers[i].mode === 'total' ? 'holes' : 'total'; renderParticipants() }
-    function onPNameInput(i) {
-      const inp = document.getElementById('pn' + i); const v = inp.value.trim().toLowerCase(); const ac = document.getElementById('pac' + i);
-      formPlayers[i].name = inp.value.trim();
-      if (!v) { ac.classList.remove('on'); return }
-      const m = D.players.filter(p => (p.이름 || '').toLowerCase().includes(v));
-      if (!m.length) { ac.classList.remove('on'); return }
-      ac.innerHTML = m.map(p => `<div class="ac-item" onclick="document.getElementById('pn${i}').value='${p.이름}';formPlayers[${i}].name='${p.이름}';document.getElementById('pac${i}').classList.remove('on')">${p.이름} <span style="color:var(--light);font-size:10px">${p.총라운드수 || 0}회</span></div>`).join('');
-      ac.classList.add('on');
-    }
-    function renderParticipants() {
-      $('participants').innerHTML = formPlayers.map((p, i) => {
-        const me = p.name === mn(), c = COL[i % 8];
-        let h = `<div class="pbox"><div style="display:flex;gap:6px;align-items:center;margin-bottom:8px">
-    <div class="pbox-av" style="background:${c}">${p.name ? p.name[0] : '?'}</div>
+function initForm(){formPlayers=[];$('aDate').value=new Date().toISOString().split('T')[0];['aTime','aArea','aCourse','aField','aCaddy','aCart'].forEach(id=>$(id).value='');$('editRid').value='';$('addTitle').textContent='📝 새 라운딩';$('saveBtn').textContent='저장';if(mn())formPlayers.push({name:mn(),mode:'holes',holes:Array(18).fill(''),total:''});renderParticipants();calcPP()}
+function calcPP(){const f=Number($('aField').value)||0,c=Number($('aCaddy').value)||0,k=Number($('aCart').value)||0,n=Math.max(formPlayers.filter(p=>p.name.trim()).length,1);const v=Math.round(f+(c+k)/n);$('ppDisplay').textContent=v.toLocaleString()+'원';$('ppCount').textContent='('+n+'명)'}
+function onCourseInput(){const v=$('aCourse').value.trim().toLowerCase();if(!v){$('acCourse').classList.remove('on');return}const m=D.courses.filter(c=>(c.골프장||'').toLowerCase().includes(v)||(c.지역||'').toLowerCase().includes(v));if(!m.length){$('acCourse').classList.remove('on');return}$('acCourse').innerHTML=m.map(c=>`<div class="ac-item" onclick="$('aCourse').value='${c.골프장}';$('aArea').value='${c.지역}';$('acCourse').classList.remove('on')">${c.골프장} <span style="color:var(--light);font-size:10px">${c.지역}</span></div>`).join('');$('acCourse').classList.add('on')}
+function addPlayer(){formPlayers.push({name:'',mode:'total',holes:Array(18).fill(''),total:''});renderParticipants();calcPP()}
+function removePlayer(i){formPlayers.splice(i,1);renderParticipants();calcPP()}
+function toggleMode(i){formPlayers[i].mode=formPlayers[i].mode==='total'?'holes':'total';renderParticipants()}
+function onPNameInput(i){
+  const inp=document.getElementById('pn'+i);const v=inp.value.trim().toLowerCase();const ac=document.getElementById('pac'+i);
+  formPlayers[i].name=inp.value.trim();
+  if(!v){ac.classList.remove('on');return}
+  const m=D.players.filter(p=>(p.이름||'').toLowerCase().includes(v));
+  if(!m.length){ac.classList.remove('on');return}
+  ac.innerHTML=m.map(p=>`<div class="ac-item" onclick="document.getElementById('pn${i}').value='${p.이름}';formPlayers[${i}].name='${p.이름}';document.getElementById('pac${i}').classList.remove('on')">${p.이름} <span style="color:var(--light);font-size:10px">${p.총라운드수||0}회</span></div>`).join('');
+  ac.classList.add('on');
+}
+function renderParticipants(){$('participants').innerHTML=formPlayers.map((p,i)=>{const me=p.name===mn(),c=COL[i%8];
+  let h=`<div class="pbox"><div style="display:flex;gap:6px;align-items:center;margin-bottom:8px">
+    <div class="pbox-av" style="background:${c}">${p.name?p.name[0]:'?'}</div>
     <div class="ac-wrap" style="flex:1"><input type="text" id="pn${i}" value="${p.name}" placeholder="이름" oninput="onPNameInput(${i})" style="font-size:13px;padding:8px 10px"><div class="ac-list" id="pac${i}"></div></div>
     <input type="number" value="${p.total}" onchange="formPlayers[${i}].total=Number(this.value)" placeholder="스코어" style="width:70px;text-align:center;font-size:14px;font-weight:600;padding:8px 4px">
     <button class="btn btn-sm" style="font-size:10px;padding:3px 8px;color:var(--sub);border:1px solid var(--border);flex-shrink:0" onclick="removePlayer(${i})">✕</button>
   </div>
-  <div class="pbox-mode"><button class="btn btn-sm ${p.mode === 'total' ? 'btn-p' : 'btn-s'}" onclick="toggleMode(${i})">토탈만</button><button class="btn btn-sm ${p.mode === 'holes' ? 'btn-p' : 'btn-s'}" onclick="toggleMode(${i})">홀별</button></div>`;
-        if (p.mode === 'holes') h += buildHI(i, p); return h + '</div>'
-      }).join('')
-    }
-    function buildHI(idx, p) {
-      let h = `<div style="display:flex;align-items:center;gap:8px;margin-bottom:8px"><label style="font-size:11px;color:var(--sub)">토탈</label><input type="number" id="fpT${idx}" value="${p.total}" onchange="formPlayers[${idx}].total=Number(this.value)" placeholder="자동72" style="text-align:center;font-size:15px;font-weight:600;max-width:120px"></div>`;
-      h += '<div class="scard"><table><tr><th class="label-col">H</th>'; for (let i = 1; i <= 9; i++)h += `<th>${i}</th>`; h += '<th>OUT</th></tr><tr><td class="label-col">+/-</td>';
-      for (let i = 0; i < 9; i++)h += `<td class="score-cell"><input type="number" value="${p.holes[i] !== '' ? p.holes[i] : ''}" onchange="uH(${idx},${i},this.value)" style="width:28px"></td>`;
-      h += `<td class="subtotal" id="fo${idx}">-</td></tr><tr><th class="label-col">H</th>`; for (let i = 10; i <= 18; i++)h += `<th>${i}</th>`; h += '<th>IN</th></tr><tr><td class="label-col">+/-</td>';
-      for (let i = 9; i < 18; i++)h += `<td class="score-cell"><input type="number" value="${p.holes[i] !== '' ? p.holes[i] : ''}" onchange="uH(${idx},${i},this.value)" style="width:28px"></td>`;
-      h += `<td class="subtotal" id="fi${idx}">-</td></tr><tr><td class="label-col" colspan="10" style="text-align:right"><strong id="ft${idx}">합계: -</strong></td></tr></table></div>`;
-      setTimeout(() => cPT(idx), 0); return h
-    }
-    function uH(idx, h, v) { formPlayers[idx].holes[h] = v !== '' ? Number(v) : ''; cPT(idx) }
-    function cPT(idx) { const p = formPlayers[idx]; let o = 0, i2 = 0, f = 0; for (let i = 0; i < 9; i++) { if (p.holes[i] !== '') { o += p.holes[i]; f++ } } for (let i = 9; i < 18; i++) { if (p.holes[i] !== '') { i2 += p.holes[i]; f++ } } const t = o + i2; const e = id => document.getElementById(id); if (e('fo' + idx)) e('fo' + idx).textContent = o > 0 ? '+' + o : o; if (e('fi' + idx)) e('fi' + idx).textContent = i2 > 0 ? '+' + i2 : i2; if (e('ft' + idx)) e('ft' + idx).textContent = `합계: ${t > 0 ? '+' + t : t}`; if (f > 0) { p.total = 72 + t; if (e('fpT' + idx)) e('fpT' + idx).value = 72 + t } }
+  <div class="pbox-mode"><button class="btn btn-sm ${p.mode==='total'?'btn-p':'btn-s'}" onclick="toggleMode(${i})">토탈만</button><button class="btn btn-sm ${p.mode==='holes'?'btn-p':'btn-s'}" onclick="toggleMode(${i})">홀별</button></div>`;
+  if(p.mode==='holes')h+=buildHI(i,p);return h+'</div>'}).join('')}
+function buildHI(idx,p){let h=`<div style="display:flex;align-items:center;gap:8px;margin-bottom:8px"><label style="font-size:11px;color:var(--sub)">토탈</label><input type="number" id="fpT${idx}" value="${p.total}" onchange="formPlayers[${idx}].total=Number(this.value)" placeholder="자동72" style="text-align:center;font-size:15px;font-weight:600;max-width:120px"></div>`;
+  h+='<div class="scard"><table><tr><th class="label-col">H</th>';for(let i=1;i<=9;i++)h+=`<th>${i}</th>`;h+='<th>OUT</th></tr><tr><td class="label-col">+/-</td>';
+  for(let i=0;i<9;i++)h+=`<td class="score-cell"><input type="number" value="${p.holes[i]!==''?p.holes[i]:''}" onchange="uH(${idx},${i},this.value)" style="width:28px"></td>`;
+  h+=`<td class="subtotal" id="fo${idx}">-</td></tr><tr><th class="label-col">H</th>`;for(let i=10;i<=18;i++)h+=`<th>${i}</th>`;h+='<th>IN</th></tr><tr><td class="label-col">+/-</td>';
+  for(let i=9;i<18;i++)h+=`<td class="score-cell"><input type="number" value="${p.holes[i]!==''?p.holes[i]:''}" onchange="uH(${idx},${i},this.value)" style="width:28px"></td>`;
+  h+=`<td class="subtotal" id="fi${idx}">-</td></tr><tr><td class="label-col" colspan="10" style="text-align:right"><strong id="ft${idx}">합계: -</strong></td></tr></table></div>`;
+  setTimeout(()=>cPT(idx),0);return h}
+function uH(idx,h,v){formPlayers[idx].holes[h]=v!==''?Number(v):'';cPT(idx)}
+function cPT(idx){const p=formPlayers[idx];let o=0,i2=0,f=0;for(let i=0;i<9;i++){if(p.holes[i]!==''){o+=p.holes[i];f++}}for(let i=9;i<18;i++){if(p.holes[i]!==''){i2+=p.holes[i];f++}}const t=o+i2;const e=id=>document.getElementById(id);if(e('fo'+idx))e('fo'+idx).textContent=o>0?'+'+o:o;if(e('fi'+idx))e('fi'+idx).textContent=i2>0?'+'+i2:i2;if(e('ft'+idx))e('ft'+idx).textContent=`합계: ${t>0?'+'+t:t}`;if(f>0){p.total=72+t;if(e('fpT'+idx))e('fpT'+idx).value=72+t}}
 
-    async function saveRound() {
-      const date = $('aDate').value, course = $('aCourse').value; if (!date || !course) return toast('날짜와 골프장을 입력하세요');
-      const vp = formPlayers.filter(p => p.name.trim()); if (!vp.length) return toast('참가자를 추가하세요');
-      const round = { 날짜: date, 시간: $('aTime').value, 지역: $('aArea').value, 골프장: course, 필드비: Number($('aField').value) || 0, 캐디비: Number($('aCaddy').value) || 0, 카트비: Number($('aCart').value) || 0, 등록자: mn() };
-      const scores = vp.map(p => ({ 이름: p.name.trim(), holes: p.mode === 'holes' ? p.holes : [], total: p.total || 0 }));
-      const rid = $('editRid').value; const isEdit = !!rid;
-      showL(isEdit ? '수정중...' : '저장중... 🏌️');
-      try {
-        const r = await api(isEdit ? { action: 'updateRound', roundId: rid, round, scores } : { action: 'addRound', round, scores });
-        hideL(); if (r.status === 'ok') { toast(isEdit ? '수정 완료!' : '저장 완료!'); initForm(); await loadData(); goTab('list') } else toast(r.message)
-      } catch (e) { hideL(); toast('저장 실패') }
-    }
+async function saveRound(){
+  const date=$('aDate').value,course=$('aCourse').value;if(!date||!course)return toast('날짜와 골프장을 입력하세요');
+  const vp=formPlayers.filter(p=>p.name.trim());if(!vp.length)return toast('참가자를 추가하세요');
+  const round={날짜:date,시간:$('aTime').value,지역:$('aArea').value,골프장:course,필드비:Number($('aField').value)||0,캐디비:Number($('aCaddy').value)||0,카트비:Number($('aCart').value)||0,등록자:mn()};
+  const scores=vp.map(p=>({이름:p.name.trim(),holes:p.mode==='holes'?p.holes:[],total:p.total||0}));
+  const rid=$('editRid').value;const isEdit=!!rid;
+  showL(isEdit?'수정중...':'저장중... 🏌️');
+  try{const r=await api(isEdit?{action:'updateRound',roundId:rid,round,scores}:{action:'addRound',round,scores});
+    hideL();if(r.status==='ok'){toast(isEdit?'수정 완료!':'저장 완료!');initForm();await loadData();goTab('list')}else toast(r.message)}catch(e){hideL();toast('저장 실패')}}
 
-    // ===== STATS =====
-    let stYear = '전체';
-    function renderStats() {
-      const m = mn(); if (!m) { $('statBoxes').innerHTML = '<div class="empty">멤버 연결 후 이용 가능</div>'; return }
-
-      // 연도 필터
-      const allMs = D.scores.filter(s => s.이름 === m);
-      const yrs = ['전체', ...new Set(allMs.map(s => { const r = D.rounds.find(x => x.round_id === s.round_id); return r ? String(r.날짜 || '').substring(0, 4) : '' }).filter(Boolean))].sort((a, b) => a === '전체' ? -1 : b === '전체' ? 1 : b.localeCompare(a));
-      const sel = $('stYr'); sel.innerHTML = yrs.map(y => `<option value="${y}"${y === stYear ? ' selected' : ''}>${y === '전체' ? '전체' : y + '년'}</option>`).join('');
-      stYear = sel.value;
-
-      // 필터된 데이터
-      const ms = allMs.filter(s => { if (stYear === '전체') return true; const r = D.rounds.find(x => x.round_id === s.round_id); return r && String(r.날짜 || '').startsWith(stYear) });
-      if (!ms.length) { $('statBoxes').innerHTML = '<div class="empty">기록이 없습니다</div>'; $('growthCard').innerHTML = ''; $('halfCard').innerHTML = ''; $('vsCards').innerHTML = ''; return }
-
-      const tots = ms.map(s => Number(s.total)).filter(v => v > 0), cnt = tots.length;
-      const avg = cnt ? Math.round(tots.reduce((a, b) => a + b, 0) / cnt * 10) / 10 : 0;
-      const best = cnt ? Math.min(...tots) : '-', worst = cnt ? Math.max(...tots) : '-';
-      let tpp = 0, totalCost = 0; ms.forEach(s => { const r = D.rounds.find(x => x.round_id === s.round_id); if (r) { const p = pp(r); tpp += p; const n = gs(r.round_id).length || 1; totalCost += Number(r.필드비 || 0) + (Number(r.캐디비 || 0) + Number(r.카트비 || 0)) / n } });
-      const avgpp = cnt ? Math.round(tpp / cnt) : 0;
-
-      // 요약 박스 3x2
-      $('statBoxes').innerHTML = `
+// ===== STATS =====
+let stYear='전체';
+function renderStats(){
+  const m=mn();if(!m){$('statBoxes').innerHTML='<div class="empty">멤버 연결 후 이용 가능</div>';return}
+  const allMs=D.scores.filter(s=>s.이름===m);
+  const yrs=['전체',...new Set(allMs.map(s=>{const r=D.rounds.find(x=>x.round_id===s.round_id);return r?String(r.날짜||'').substring(0,4):''}).filter(Boolean))].sort((a,b)=>a==='전체'?-1:b==='전체'?1:b.localeCompare(a));
+  const sel=$('stYr');sel.innerHTML=yrs.map(y=>`<option value="${y}"${y===stYear?' selected':''}>${y==='전체'?'전체':y+'년'}</option>`).join('');
+  stYear=sel.value;
+  const ms=allMs.filter(s=>{if(stYear==='전체')return true;const r=D.rounds.find(x=>x.round_id===s.round_id);return r&&String(r.날짜||'').startsWith(stYear)});
+  if(!ms.length){$('statBoxes').innerHTML='<div class="empty">기록이 없습니다</div>';$('growthCard').innerHTML='';$('halfCard').innerHTML='';$('vsCards').innerHTML='';return}
+  const tots=ms.map(s=>Number(s.total)).filter(v=>v>0),cnt=tots.length;
+  const avg=cnt?Math.round(tots.reduce((a,b)=>a+b,0)/cnt*10)/10:0;
+  const best=cnt?Math.min(...tots):'-',worst=cnt?Math.max(...tots):'-';
+  let tpp=0,totalCost=0,costCnt=0;ms.forEach(s=>{const r=D.rounds.find(x=>x.round_id===s.round_id);if(r){const f=Number(r.필드비||0),c=Number(r.캐디비||0),k=Number(r.카트비||0);if(f||c||k){const n=gs(r.round_id).length||1;const p=Math.round(f+(c+k)/n);tpp+=p;totalCost+=f+(c+k)/n;costCnt++}}});
+  const avgpp=costCnt?Math.round(tpp/costCnt):0;
+  $('statBoxes').innerHTML=`
     <div class="sbox"><div class="sv">${avg}</div><div class="sl">평균</div></div>
     <div class="sbox"><div class="sv" style="color:var(--g500)">${best}</div><div class="sl">베스트</div></div>
     <div class="sbox"><div class="sv" style="color:var(--danger)">${worst}</div><div class="sl">워스트</div></div>
     <div class="sbox"><div class="sv">${cnt}</div><div class="sl">총 라운딩</div></div>
     <div class="sbox"><div class="sv" style="font-size:16px">${avgpp.toLocaleString()}</div><div class="sl">평균비용(1인)</div></div>
     <div class="sbox"><div class="sv" style="font-size:16px">${Math.round(totalCost).toLocaleString()}</div><div class="sl">총비용</div></div>`;
-
-      // 스코어 추이
-      const td = ms.filter(s => Number(s.total) > 0).map(s => { const r = D.rounds.find(x => x.round_id === s.round_id); return { d: r?.날짜 || '', t: Number(s.total) } }).sort((a, b) => a.d.localeCompare(b.d));
-      mkC('chTrend', 'line', { labels: td.map(x => fd(x.d)), datasets: [{ label: '스코어', data: td.map(x => x.t), borderColor: '#2d8a5e', backgroundColor: '#2d8a5e20', tension: .3, pointRadius: 4, fill: true }] }, { plugins: { legend: { display: false } }, scales: { y: { min: Math.min(...td.map(x => x.t)) - 5 } } });
-
-      // 스코어 분포 도넛
-      const dist = { 70: 0, 80: 0, 90: 0, 100: 0, 110: 0 }; tots.forEach(t => { if (t < 80) dist[70]++; else if (t < 90) dist[80]++; else if (t < 100) dist[90]++; else if (t < 110) dist[100]++; else dist[110]++ });
-      mkC('chDist', 'doughnut', { labels: ['70대', '80대', '90대', '100대', '110+'], datasets: [{ data: [dist[70], dist[80], dist[90], dist[100], dist[110]], backgroundColor: ['#185fa5', '#2d8a5e', '#c9a84c', '#e67e22', '#d44040'], borderWidth: 2 }] }, { plugins: { legend: { position: 'bottom', labels: { boxWidth: 12, font: { size: 11 } } } } });
-
-      // 최근 5 vs 이전 5
-      if (td.length >= 5) {
-        const recent = td.slice(-5).map(x => x.t), prev = td.slice(-10, -5).map(x => x.t);
-        const rAvg = Math.round(recent.reduce((a, b) => a + b, 0) / recent.length * 10) / 10;
-        if (prev.length) {
-          const pAvg = Math.round(prev.reduce((a, b) => a + b, 0) / prev.length * 10) / 10;
-          const diff = Math.round((rAvg - pAvg) * 10) / 10;
-          const better = diff < 0;
-          $('growthCard').innerHTML = `<div class="card-t">📊 최근 성장</div>
+  const td=ms.filter(s=>Number(s.total)>0).map(s=>{const r=D.rounds.find(x=>x.round_id===s.round_id);return{d:r?.날짜||'',t:Number(s.total)}}).sort((a,b)=>a.d.localeCompare(b.d));
+  mkC('chTrend','line',{labels:td.map(x=>fd(x.d)),datasets:[{label:'스코어',data:td.map(x=>x.t),borderColor:'#2d8a5e',backgroundColor:'#2d8a5e20',tension:.3,pointRadius:4,fill:true}]},{plugins:{legend:{display:false}},scales:{y:{min:Math.min(...td.map(x=>x.t))-5}}});
+  const dist={70:0,80:0,90:0,100:0,110:0};tots.forEach(t=>{if(t<80)dist[70]++;else if(t<90)dist[80]++;else if(t<100)dist[90]++;else if(t<110)dist[100]++;else dist[110]++});
+  mkC('chDist','doughnut',{labels:['70대','80대','90대','100대','110+'],datasets:[{data:[dist[70],dist[80],dist[90],dist[100],dist[110]],backgroundColor:['#185fa5','#2d8a5e','#c9a84c','#e67e22','#d44040'],borderWidth:2}]},{plugins:{legend:{position:'bottom',labels:{boxWidth:12,font:{size:11}}}}});
+  if(td.length>=5){
+    const recent=td.slice(-5).map(x=>x.t),prev=td.slice(-10,-5).map(x=>x.t);
+    const rAvg=Math.round(recent.reduce((a,b)=>a+b,0)/recent.length*10)/10;
+    if(prev.length){
+      const pAvg=Math.round(prev.reduce((a,b)=>a+b,0)/prev.length*10)/10;
+      const diff=Math.round((rAvg-pAvg)*10)/10;const better=diff<0;
+      $('growthCard').innerHTML=`<div class="card-t">📊 최근 성장</div>
         <div style="display:flex;justify-content:space-around;text-align:center;margin-bottom:8px">
           <div><div style="font-size:10px;color:var(--sub)">이전 ${prev.length}R</div><div style="font-size:20px;font-weight:600">${pAvg}</div></div>
-          <div style="font-size:24px;color:${better ? 'var(--g500)' : 'var(--danger)'};align-self:center">${better ? '→' : '→'}</div>
-          <div><div style="font-size:10px;color:var(--sub)">최근 5R</div><div style="font-size:20px;font-weight:600;color:${better ? 'var(--g500)' : 'var(--danger)'}">${rAvg}</div></div>
+          <div style="font-size:24px;color:${better?'var(--g500)':'var(--danger)'};align-self:center">→</div>
+          <div><div style="font-size:10px;color:var(--sub)">최근 5R</div><div style="font-size:20px;font-weight:600;color:${better?'var(--g500)':'var(--danger)'}">${rAvg}</div></div>
         </div>
-        <div style="text-align:center;font-size:13px;font-weight:500;color:${better ? 'var(--g500)' : 'var(--danger)'}">${better ? '🔥' : '😅'} ${Math.abs(diff)}타 ${better ? '개선!' : '후퇴'}</div>`;
-        } else {
-          $('growthCard').innerHTML = `<div class="card-t">📊 최근 5R 평균</div><div style="text-align:center;font-size:24px;font-weight:600">${rAvg}</div>`;
-        }
-      } else $('growthCard').innerHTML = '';
-
-      // 전반 vs 후반
-      let outSum = 0, outCnt = 0, inSum = 0, inCnt = 0;
-      ms.forEach(s => {
-        let o = 0, oc = 0, i = 0, ic = 0;
-        for (let h = 1; h <= 9; h++) { const v = s['h' + h]; if (v !== '' && v !== undefined && v !== null) { o += Number(v); oc++ } }
-        for (let h = 10; h <= 18; h++) { const v = s['h' + h]; if (v !== '' && v !== undefined && v !== null) { i += Number(v); ic++ } }
-        if (oc === 9) { outSum += o; outCnt++ } if (ic === 9) { inSum += i; inCnt++ }
-      });
-      if (outCnt && inCnt) {
-        const oAvg = Math.round(outSum / outCnt * 10) / 10, iAvg = Math.round(inSum / inCnt * 10) / 10;
-        const diff = Math.round((iAvg - oAvg) * 10) / 10;
-        $('halfCard').innerHTML = `<div class="card-t">⛳ 전반 vs 후반</div>
+        <div style="text-align:center;font-size:13px;font-weight:500;color:${better?'var(--g500)':'var(--danger)'}">${better?'🔥':'😅'} ${Math.abs(diff)}타 ${better?'개선!':'후퇴'}</div>`;
+    }else{$('growthCard').innerHTML=`<div class="card-t">📊 최근 5R 평균</div><div style="text-align:center;font-size:24px;font-weight:600">${rAvg}</div>`}
+  }else $('growthCard').innerHTML='';
+  let outSum=0,outCnt=0,inSum=0,inCnt=0;
+  ms.forEach(s=>{let o=0,oc=0,i=0,ic=0;
+    for(let h=1;h<=9;h++){const v=s['h'+h];if(v!==''&&v!==undefined&&v!==null){o+=Number(v);oc++}}
+    for(let h=10;h<=18;h++){const v=s['h'+h];if(v!==''&&v!==undefined&&v!==null){i+=Number(v);ic++}}
+    if(oc===9){outSum+=o;outCnt++}if(ic===9){inSum+=i;inCnt++}
+  });
+  if(outCnt&&inCnt){
+    const oAvg=Math.round(outSum/outCnt*10)/10,iAvg=Math.round(inSum/inCnt*10)/10;
+    const diff=Math.round((iAvg-oAvg)*10)/10;
+    $('halfCard').innerHTML=`<div class="card-t">⛳ 전반 vs 후반</div>
       <div style="display:flex;justify-content:space-around;text-align:center;margin-bottom:8px">
-        <div><div style="font-size:10px;color:var(--sub)">전반 (OUT)</div><div style="font-size:20px;font-weight:600">${oAvg > 0 ? '+' : ''}${oAvg}</div></div>
-        <div><div style="font-size:10px;color:var(--sub)">후반 (IN)</div><div style="font-size:20px;font-weight:600">${iAvg > 0 ? '+' : ''}${iAvg}</div></div>
+        <div><div style="font-size:10px;color:var(--sub)">전반 (OUT)</div><div style="font-size:20px;font-weight:600">${oAvg>0?'+':''}${oAvg}</div></div>
+        <div><div style="font-size:10px;color:var(--sub)">후반 (IN)</div><div style="font-size:20px;font-weight:600">${iAvg>0?'+':''}${iAvg}</div></div>
       </div>
-      <div style="text-align:center;font-size:12px;color:var(--sub)">${diff > 0 ? '후반에 평균 +' + diff + '타 더 잃음 😤' : '전반이 평균 +' + Math.abs(diff) + '타 더 잃음'}</div>`;
-      } else $('halfCard').innerHTML = '';
-
-      // 골프장별 평균 (코스명 제외하고 골프장 기준으로 그룹핑)
-      const cm = {}; ms.forEach(s => { const r = D.rounds.find(x => x.round_id === s.round_id); if (!r) return; const c = (r.골프장 || '-').replace(/\(.*\)/, '').trim(); if (!cm[c]) cm[c] = { s: 0, c: 0 }; cm[c].s += Number(s.total); cm[c].c++ });
-      const ce = Object.entries(cm).filter(([, v]) => v.c > 0).sort((a, b) => a[1].s / a[1].c - b[1].s / b[1].c);
-      if (ce.length) mkC('chCourse', 'bar', { labels: ce.map(c => c[0] + '(' + c[1].c + ')'), datasets: [{ label: '평균', data: ce.map(c => Math.round(c[1].s / c[1].c * 10) / 10), backgroundColor: ce.map((_, i) => i === 0 ? '#2d8a5e' : '#c9a84c'), borderRadius: 4 }] }, { indexAxis: 'y', plugins: { legend: { display: false } }, scales: { x: { min: Math.min(...ce.map(c => c[1].s / c[1].c)) - 3 } } });
-
-      // 1:1 전적
-      const vs = {}; ms.forEach(s => {
-        const rd = s.round_id; const myT = Number(s.total); if (!myT) return;
-        D.scores.filter(o => o.round_id === rd && o.이름 !== m).forEach(o => {
-          const oT = Number(o.total); if (!oT) return;
-          if (!vs[o.이름]) vs[o.이름] = { w: 0, l: 0, d: 0, cnt: 0 }; vs[o.이름].cnt++;
-          if (myT < oT) vs[o.이름].w++; else if (myT > oT) vs[o.이름].l++; else vs[o.이름].d++
-        })
-      });
-      const ve = Object.entries(vs).sort((a, b) => b[1].cnt - a[1].cnt);
-      if (ve.length) {
-        $('vsCards').innerHTML = '<div class="card"><div class="card-t">🏆 1:1 전적</div>' + ve.map(([name, v]) => {
-          const pct = v.cnt ? Math.round(v.w / v.cnt * 100) : 0;
-          const emoji = pct >= 60 ? '🔥' : pct >= 40 ? '⚔️' : '💀';
-          return `<div style="display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border)">
+      <div style="text-align:center;font-size:12px;color:var(--sub)">${diff>0?'후반에 평균 +'+diff+'타 더 잃음 😤':'전반이 평균 +'+Math.abs(diff)+'타 더 잃음'}</div>`;
+  }else $('halfCard').innerHTML='';
+  // 골프장별 평균 - 동적 높이
+  const cm={};ms.forEach(s=>{const r=D.rounds.find(x=>x.round_id===s.round_id);if(!r)return;const c=(r.골프장||'-').replace(/\(.*\)/,'').trim();if(!cm[c])cm[c]={s:0,c:0};cm[c].s+=Number(s.total);cm[c].c++});
+  const ce=Object.entries(cm).filter(([,v])=>v.c>0).sort((a,b)=>a[1].s/a[1].c-b[1].s/b[1].c);
+  if(ce.length){
+    const chH=Math.max(120,ce.length*40);
+    $('courseChartWrap').innerHTML=`<canvas id="chCourse" style="max-height:none;height:${chH}px"></canvas>`;
+    mkC('chCourse','bar',{labels:ce.map(c=>c[0]+'('+c[1].c+')'),datasets:[{label:'평균',data:ce.map(c=>Math.round(c[1].s/c[1].c*10)/10),backgroundColor:ce.map((_,i)=>i===0?'#2d8a5e':'#c9a84c'),borderRadius:4}]},{indexAxis:'y',maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{min:Math.min(...ce.map(c=>c[1].s/c[1].c))-3}}});
+  }
+  const vs={};ms.forEach(s=>{const rd=s.round_id;const myT=Number(s.total);if(!myT)return;
+    D.scores.filter(o=>o.round_id===rd&&o.이름!==m).forEach(o=>{const oT=Number(o.total);if(!oT)return;
+      if(!vs[o.이름])vs[o.이름]={w:0,l:0,d:0,cnt:0};vs[o.이름].cnt++;
+      if(myT<oT)vs[o.이름].w++;else if(myT>oT)vs[o.이름].l++;else vs[o.이름].d++})});
+  const ve=Object.entries(vs).sort((a,b)=>b[1].cnt-a[1].cnt);
+  if(ve.length){
+    $('vsCards').innerHTML='<div class="card"><div class="card-t">🏆 1:1 전적</div>'+ve.map(([name,v])=>{
+      const pct=v.cnt?Math.round(v.w/v.cnt*100):0;
+      const emoji=pct>=60?'🔥':pct>=40?'⚔️':'💀';
+      return`<div style="display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border)">
         <div style="font-size:13px;font-weight:500">${emoji} vs ${name}</div>
-        <div style="font-size:12px;text-align:right"><span style="color:var(--g500);font-weight:600">${v.w}승</span> <span style="color:var(--danger);font-weight:600">${v.l}패</span>${v.d ? ' <span>' + v.d + '무</span>' : ''} <span style="color:var(--sub);font-size:10px">(${v.cnt}전 ${pct}%)</span></div>
-      </div>`}).join('') + '</div>';
-      } else $('vsCards').innerHTML = '';
-    }
-    $('stYr').onchange = function () { stYear = this.value; renderStats() };
-    function mkC(id, type, data, opts = {}) { if (CH[id]) CH[id].destroy(); CH[id] = new Chart($(id).getContext('2d'), { type, data, options: { responsive: true, maintainAspectRatio: true, scales: { x: { grid: { display: false } }, y: { grid: { color: '#eee' } } }, ...opts } }) }
+        <div style="font-size:12px;text-align:right"><span style="color:var(--g500);font-weight:600">${v.w}승</span> <span style="color:var(--danger);font-weight:600">${v.l}패</span>${v.d?' <span>'+v.d+'무</span>':''} <span style="color:var(--sub);font-size:10px">(${v.cnt}전 ${pct}%)</span></div>
+      </div>`}).join('')+'</div>';
+  }else $('vsCards').innerHTML='';
+}
+$('stYr').onchange=function(){stYear=this.value;renderStats()};
+function mkC(id,type,data,opts={}){if(CH[id])CH[id].destroy();CH[id]=new Chart($(id).getContext('2d'),{type,data,options:{responsive:true,maintainAspectRatio:true,...opts,scales:{x:{grid:{display:false}},y:{grid:{color:'#eee'}},...(opts.scales||{})}}})}
 
-    // Init
-    loadSt(); if (USER) enter();
-    document.addEventListener('click', e => { if (!e.target.closest('.ac-wrap')) document.querySelectorAll('.ac-list').forEach(l => l.classList.remove('on')) });
-    if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(() => { });
-  </script>
+loadSt();if(USER)enter();
+document.addEventListener('click',e=>{if(!e.target.closest('.ac-wrap'))document.querySelectorAll('.ac-list').forEach(l=>l.classList.remove('on'))});
+if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
+</script>
 </body>
-
 </html>
