@@ -34,8 +34,9 @@
 .sgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px}.sgrid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:10px}.sbox{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:12px;text-align:center}.sbox .sv{font-size:20px;font-weight:500;color:var(--g700)}.sbox .sl{font-size:10px;color:var(--sub);margin-top:1px}.chart-box{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:14px;margin-bottom:10px}.chart-box .ct-t{font-size:12px;font-weight:500;margin-bottom:8px;color:var(--g800)}canvas{max-height:240px}
 .det-hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}.det-back{background:none;border:none;font-size:12px;color:var(--g600);cursor:pointer;font-family:'Noto Sans KR'}
 .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--g800);color:#fff;padding:10px 20px;border-radius:24px;font-size:12px;z-index:300;opacity:0;transition:opacity .3s;pointer-events:none}.toast.on{opacity:1}
-.ld{display:flex;align-items:center;justify-content:center;padding:40px;color:var(--sub);font-size:12px;flex-direction:column;gap:10px}.golf-ball{width:36px;height:36px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#fff 0%,#f0f0e8 40%,#ddd 100%);box-shadow:inset -3px -3px 6px rgba(0,0,0,.1),1px 2px 4px rgba(0,0,0,.15);position:relative;animation:bounce .6s ease-in-out infinite}.golf-ball::after{content:'';position:absolute;top:30%;left:25%;width:50%;height:40%;background:radial-gradient(circle,rgba(0,0,0,.06) 1px,transparent 1px);background-size:5px 5px;border-radius:50%}@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
-.loading-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:250;align-items:center;justify-content:center;flex-direction:column;gap:12px}.loading-overlay.on{display:flex}.loading-overlay .golf-ball{width:48px;height:48px}.loading-overlay p{color:#fff;font-size:14px;font-weight:500}
+.ld{display:flex;align-items:center;justify-content:center;padding:40px;color:var(--sub);font-size:12px;flex-direction:column;gap:10px}.cart-anim{font-size:36px;animation:cartDrive 1s ease-in-out infinite}@keyframes cartDrive{0%{transform:translateX(-10px) rotate(-2deg)}50%{transform:translateX(10px) rotate(2deg)}100%{transform:translateX(-10px) rotate(-2deg)}}
+.loading-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:250;align-items:center;justify-content:center;flex-direction:column;gap:12px}.loading-overlay.on{display:flex}.loading-overlay .cart-anim{font-size:48px}.loading-overlay p{color:#fff;font-size:14px;font-weight:500}
+.gazua{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);font-size:48px;font-weight:900;color:var(--gold);z-index:400;pointer-events:none;opacity:0;text-shadow:2px 2px 8px rgba(0,0,0,.3)}.gazua.on{animation:gazuaAnim .8s ease-out forwards}@keyframes gazuaAnim{0%{opacity:0;transform:translate(-50%,-50%) scale(.5)}30%{opacity:1;transform:translate(-50%,-50%) scale(1.3)}60%{opacity:1;transform:translate(-50%,-50%) scale(1)}100%{opacity:0;transform:translate(-50%,-70%) scale(1.1)}}
 .empty{text-align:center;padding:40px 20px;color:var(--light)}.empty .eic{font-size:36px;margin-bottom:8px}
 @media(max-width:480px){.frow{grid-template-columns:1fr}.ct{padding:10px}}
 </style>
@@ -49,7 +50,8 @@
 <div class="hdr"><div class="hdr-top"><div class="logo" onclick="loadData()" style="cursor:pointer"><img src="icon-192.png" style="width:30px;height:30px;border-radius:6px"><h1 style="font-size:14px;letter-spacing:1px;font-variant-numeric:lining-nums">1 Hall Awalys Par</h1></div><div class="hdr-r"><div class="ubadge"><div class="dot"></div><span id="uname"></span></div><button class="ibtn" onclick="doLogout()">🔓</button></div></div>
 <div class="tabs"><button class="tab on" data-t="list" onclick="goTab('list')">📋 기록</button><button class="tab" data-t="add" onclick="goTab('add')">➕ 입력</button><button class="tab" data-t="stats" onclick="goTab('stats')">📊 통계</button></div></div>
 <div class="toast" id="toast"></div>
-<div class="loading-overlay" id="loadingOv"><div class="golf-ball"></div><p id="loadingMsg">저장중...</p></div>
+<div class="loading-overlay" id="loadingOv"><div class="cart-anim">🏎️</div><p id="loadingMsg">저장중...</p></div>
+<div class="gazua" id="gazua">🏌️ 가즈아!</div>
 <div class="ct">
 <div class="page on" id="pg-list"><div class="fbar"><select class="fsel" id="yrFilter"></select></div><div id="rlist"></div></div>
 <div class="page" id="pg-add"><div class="card"><div class="card-t" id="addTitle">📝 새 라운딩</div><input type="hidden" id="editRid">
@@ -88,13 +90,13 @@ function saveSt(){if(USER)localStorage.setItem('gu3',JSON.stringify(USER));else 
 
 function showLogin(){$('loginF').classList.remove('hide');$('regF').classList.add('hide');$('loginErr').classList.add('hide')}
 function showReg(){$('loginF').classList.add('hide');$('regF').classList.remove('hide');$('regErr').classList.add('hide')}
-async function doLogin(){const id=$('lId').value.trim(),pw=$('lPw').value;if(!id||!pw)return shErr('loginErr','아이디와 비밀번호를 입력하세요');showL('로그인 중...');try{const r=await api({action:'login',userId:id,password:pw});hideL();if(r.status==='ok'){USER=r.user;saveSt();enter()}else shErr('loginErr',r.message)}catch(e){hideL();shErr('loginErr','서버 연결 실패')}}
+async function doLogin(){const id=$('lId').value.trim(),pw=$('lPw').value;if(!id||!pw)return shErr('loginErr','아이디와 비밀번호를 입력하세요');const gz=$('gazua');gz.classList.add('on');setTimeout(()=>gz.classList.remove('on'),800);showL('카트이동 중...');try{const r=await api({action:'login',userId:id,password:pw});hideL();if(r.status==='ok'){USER=r.user;saveSt();enter()}else shErr('loginErr',r.message)}catch(e){hideL();shErr('loginErr','서버 연결 실패')}}
 async function doReg(){const id=$('rId').value.trim(),pw=$('rPw').value,nm=$('rNm').value.trim(),mem=$('rMem').value.trim();if(!id||!pw||!nm)return shErr('regErr','모든 항목을 입력하세요');showL('가입 중...');try{const r=await api({action:'register',userId:id,password:pw,userName:nm,memberName:mem});hideL();if(r.status==='ok'){USER=r.user;saveSt();enter();toast('가입 완료!')}else shErr('regErr',r.message)}catch(e){hideL();shErr('regErr','서버 연결 실패')}}
 function doLogout(){if(!confirm('로그아웃?'))return;USER=null;saveSt();$('app').classList.remove('on');$('auth').style.display='flex';showLogin()}
 function shErr(id,m){$(id).textContent=m;$(id).classList.remove('hide')}
 function enter(){$('auth').style.display='none';$('app').classList.add('on');$('uname').textContent=USER.userName;initForm();loadData()}
 
-async function loadData(){$('rlist').innerHTML='<div class="ld"><div class="golf-ball"></div>불러오는 중...</div>';try{const j=await api();if(j.status==='ok'){D=j;D.rounds=j.rounds||[];D.scores=j.scores||[];D.players=j.players||[];D.courses=j.courses||[];renderList()}}catch(e){$('rlist').innerHTML='<div class="empty"><div class="eic">⚠️</div>데이터 로드 실패</div>'}}
+async function loadData(){$('rlist').innerHTML='<div class="ld"><div class="cart-anim">🏎️</div>카트이동 중...</div>';try{const j=await api();if(j.status==='ok'){D=j;D.rounds=j.rounds||[];D.scores=j.scores||[];D.players=j.players||[];D.courses=j.courses||[];renderList()}}catch(e){$('rlist').innerHTML='<div class="empty"><div class="eic">⚠️</div>데이터 로드 실패</div>'}}
 
 function $(id){return document.getElementById(id)}
 function mn(){return USER?.memberName||''}
